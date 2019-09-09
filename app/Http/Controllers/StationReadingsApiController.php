@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\StationReadings;
-use App\Http\Resources\StationReadings as StationReadingsResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\StationReadings as StationReadingsResource;
 
 
 class StationReadingsApiController extends Controller
@@ -23,6 +24,7 @@ class StationReadingsApiController extends Controller
             'temperature' => 'required|numeric|between:-100,100',
             'pressure' => 'required|numeric|between:969,1020',
             'humidity' => 'required|numeric|between:0,100',
+            'key' => 'required'
         ]);
 
         if($validator->fails()) {
@@ -34,8 +36,11 @@ class StationReadingsApiController extends Controller
         $readings->pressure = $request->input('pressure');
         $readings->humidity = $request->input('humidity');
 
-        if($readings->save()) {
-            return new StationReadingsResource($readings);
+        if(DB::table('station')->where('key', $request->key)->exists()) {
+            if($readings->save()) {
+                return new StationReadingsResource($readings);
+            }
         }
+        return response()->json(['Invalid token'], 400);
     }
 }

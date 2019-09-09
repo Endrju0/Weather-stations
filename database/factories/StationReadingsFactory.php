@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
+use App\StationReadings;
 use Faker\Generator as Faker;
 
-$factory->define(App\StationReadings::class, function (Faker $faker) {
+$factory->define(StationReadings::class, function (Faker $faker) {
     return [
         'temperature' => $faker->numberBetween(0, 100),
         'pressure' => $faker->numberBetween(0, 100),
