@@ -67,6 +67,8 @@ return [
     |
     */
 
+    // 'timezone' => 'Europe/Warsaw',
+    // 'timezone' => 'GMT+2',
     'timezone' => 'UTC',
 
     /*

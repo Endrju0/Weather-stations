@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\StationReadings as StationReadingsResource;
+use App\Station;
 
 
 class StationReadingsApiController extends Controller
@@ -37,8 +38,13 @@ class StationReadingsApiController extends Controller
         $readings->humidity = $request->input('humidity');
 
         if(DB::table('station')->where('key', $request->key)->exists()) {
+
+            $station = Station::where(['key'=>$request->key])->firstOrFail();
+            $readings->station()->associate($station);
+
             if($readings->save()) {
                 return new StationReadingsResource($readings);
+                // return response()->json($readings);
             }
         }
         return response()->json(['Invalid token'], 400);

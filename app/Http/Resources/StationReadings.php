@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StationReadings extends JsonResource
@@ -16,10 +17,12 @@ class StationReadings extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
+            // 'id' => $this->id,
             'temperature' => $this->temperature,
             'pressure' => $this->pressure,
-            'humidity' => $this->humidity
+            'humidity' => $this->humidity,
+            'station_name' => $this->station->name,
+            'post_date' => Carbon::now()->toDateTimeString(),
         ];
     }
 }

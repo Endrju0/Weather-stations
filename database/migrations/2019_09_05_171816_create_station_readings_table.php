@@ -18,8 +18,8 @@ class CreateStationReadingsTable extends Migration
             $table->double('temperature', 6, 3);
             $table->double('pressure', 7, 3);
             $table->double('humidity', 6, 3);
-            //$table->string('station_name')
-            $table->timestamp('created_at')->nullable()->default(\Carbon\Carbon::now());
+            $table->bigInteger('station_id')->unsigned();
+            $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
