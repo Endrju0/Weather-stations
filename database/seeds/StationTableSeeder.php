@@ -16,6 +16,7 @@ class StationTableSeeder extends Seeder
             Station::create([
                 'name' => 'Stacja nr.' . $i,
                 'key' => Str::random(20),
+                'user_id' => 1,
             ]);
         }
     }

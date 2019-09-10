@@ -11,4 +11,8 @@ class Station extends Model
     public function stationReadings() {
         return $this->hasMany('App\StationReadings');
     }
+
+    public function station() {
+        return $this->belongsTo('App\User');
+    }
 }
