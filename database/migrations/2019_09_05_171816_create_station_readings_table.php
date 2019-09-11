@@ -18,8 +18,10 @@ class CreateStationReadingsTable extends Migration
             $table->double('temperature', 6, 3);
             $table->double('pressure', 7, 3);
             $table->double('humidity', 6, 3);
-            $table->bigInteger('station_id')->unsigned();
+            $table->unsignedBigInteger('station_id');
             $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->index('station_id');
         });
     }
 

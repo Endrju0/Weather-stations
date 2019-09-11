@@ -38,6 +38,6 @@ class User extends Authenticatable
     ];
     
     public function stations() {
-        return $this->hasMany('App\Station');
+        return $this->hasMany(Station::Class);
     }
 }

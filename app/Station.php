@@ -9,10 +9,10 @@ class Station extends Model
     protected $table = 'station';
 
     public function stationReadings() {
-        return $this->hasMany('App\StationReadings');
+        return $this->hasMany(StationReadings::class);
     }
 
-    public function station() {
-        return $this->belongsTo('App\User');
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

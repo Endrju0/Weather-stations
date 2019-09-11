@@ -11,6 +11,6 @@ class StationReadings extends Model
     public $timestamps = false;
 
     public function station() {
-        return $this->belongsTo('App\Station');
+        return $this->belongsTo(Station::class);
     }
 }
