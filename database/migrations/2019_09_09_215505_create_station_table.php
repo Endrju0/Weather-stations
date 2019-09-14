@@ -16,6 +16,8 @@ class CreateStationTable extends Migration
         Schema::create('station', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('latitude', 15)->nullable();
+            $table->string('longitude', 15)->nullable();
             $table->string('key', 20);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
