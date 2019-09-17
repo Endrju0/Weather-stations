@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //send readings to database
 Route::post('readings', 'StationReadingsApiController@store');
+Route::get('stations', 'StationApiController@index')->name('stations.index');
+Route::get('show/{stationID}', 'StationReadingsApiController@show')->name('readings.show');

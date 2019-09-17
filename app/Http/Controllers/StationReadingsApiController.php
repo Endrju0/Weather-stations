@@ -60,4 +60,21 @@ class StationReadingsApiController extends Controller
         }
         return response()->json(['Invalid token'], 400);
     }
+
+    /**
+     * Get latest specific station readings
+     *
+     * @param  int  $stationID
+     * @return \Illuminate\Http\Response
+     */
+    public function show($stationID)
+    {
+        $readings = StationReadings::where('station_id', '=', $stationID)->latest()->firstOrFail();
+
+        return response()->json([
+                'temperature' => $readings->temperature,
+                'pressure' => $readings->pressure,
+                'humidity' => $readings->humidity,
+        ]);
+    }
 }

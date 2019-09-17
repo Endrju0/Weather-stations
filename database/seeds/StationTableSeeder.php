@@ -16,8 +16,8 @@ class StationTableSeeder extends Seeder
             Station::create([
                 'name' => 'Stacja nr.' . $i,
                 'key' => Str::random(20),
-                'latitude' => (50.252091283171 + 0.05 * $i),
-                'longitude' => (19.012784957885 + 0.05 * $i),
+                'latitude' => (50.252091283171 + 0.0005 * $i),
+                'longitude' => (19.012784957885 + 0.0005 * $i),
                 'user_id' => 1,
             ]);
         }

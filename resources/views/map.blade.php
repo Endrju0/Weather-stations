@@ -14,11 +14,6 @@
 <div class="card">
     <div class="card-body" id="mapid"></div>
 </div>
-
-@foreach ($stations as $station)
-        <p> {{ $station->longitude }} </p>
-        <p> {{ $station->latitude }} </p>
-    @endforeach
 @endsection
 
 @push('scripts')
@@ -34,28 +29,46 @@
 </script>
 
 <script>
-    var stations = {!! json_encode($stations) !!};
-
-    for(var station in stations) {
-        
-        var stationPoint = {
-            "type": "Feature",
-            "properties": {
-                "popupContent": stations[station]['name']
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [stations[station]['longitude'], stations[station]['latitude']]
-            }
-        };
-        var stationLayer = L.geoJSON(stationPoint, {
-            pointToLayer: function (feature, latlng) {
-                console.log(latlng)
+    //get stations latlng, name
+    axios.get('{{ route('stations.index') }}')
+    .then(function (response) {
+        // pin stations to map
+        L.geoJSON(response.data, {
+            pointToLayer: function(geoJsonStation, latlng) {
+                // console.log(geoJsonStation);
                 return L.marker(latlng);
-            },
-        }).addTo(map);
-        stationLayer.bindPopup(stationPoint.properties.popupContent);
-    }
+            }
+        })
+        .bindPopup('Loading...')
+        //if click get fresh station readings
+        .on('click', function(e) {
+            var popup = e.target.getPopup();
+            popup.setContent('Loading...')
+
+            // console.log(e.layer.feature.properties.stationID);
+            var url = '{{ route('readings.show', ":id") }}';
+            url = url.replace(':id',e.layer.feature.properties.stationID);
+
+            axios.get(url)
+            .then(function (response) {
+                console.log(response);
+                popup.setContent(
+                    '<p> Temperature: ' + response.data.temperature + '</p>' +
+                    '<p> Pressure: ' + response.data.pressure + '</p>' +
+                    '<p> Humidity: ' + response.data.humidity + '</p>'
+                );
+                popup.update();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        })
+        .addTo(map);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 </script>
  
 @endpush

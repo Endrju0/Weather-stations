@@ -14,8 +14,9 @@ class MapController extends Controller
      */
     public function index()
     {
-        $stations = Station::query()->get();
-        return view('map', compact('stations'));
+        // $stations = Station::query()->get();
+        // return view('map', compact('stations'));
+        return view('map');
     }
 
     /**
