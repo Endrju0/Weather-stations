@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/map', 'MapController@index')->name('map');
+Route::get('/station/{id}', 'StationController@show')->name('station.show');
+

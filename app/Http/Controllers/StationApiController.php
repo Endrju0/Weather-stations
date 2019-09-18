@@ -16,7 +16,11 @@ class StationApiController extends Controller
      */
     public function index(Request $request)
     {
-        $stations = Station::all();
+        // $outletQuery = Outlet::query();
+        // $outletQuery->where('name', 'like', '%'.request('q').'%');
+        if(Request::has('id')) {
+            $stations = Outlet::query()->where('id', $request->id);
+        } else $stations = Station::all();
 
         $geoJSON = $stations->map(function ($station) {
             return [
@@ -36,17 +40,6 @@ class StationApiController extends Controller
         return response()->json([
             'type'     => 'FeatureCollection',
             'features' => $geoJSON,
-        ]);
-    }
-
-    public function test($stationID) {
-        //get latest readings
-        $readings = StationReadings::where('station_id', '=', $stationID)->latest()->firstOrFail();
-
-        return response()->json([
-                'temperature' => $readings->temperature,
-                'pressure' => $readings->pressure,
-                'humidity' => $readings->humidity,
         ]);
     }
 }
