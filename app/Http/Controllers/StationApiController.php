@@ -16,11 +16,7 @@ class StationApiController extends Controller
      */
     public function index(Request $request)
     {
-        // $outletQuery = Outlet::query();
-        // $outletQuery->where('name', 'like', '%'.request('q').'%');
-        if(Request::has('id')) {
-            $stations = Outlet::query()->where('id', $request->id);
-        } else $stations = Station::all();
+        $stations = Station::all();
 
         $geoJSON = $stations->map(function ($station) {
             return [

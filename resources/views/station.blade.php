@@ -11,13 +11,21 @@
 @endsection
 
 @section('content')
+
 <div class="row justify-content-center">
     <div class="col-md-6 mb-3">
         <div class="card">
             <div class="card-header">{{ $station->name }}</div>
             <div class="card-body" id="mapid"></div>
             <div class="card-footer">
-                <input type="submit" value="Edit" class="btn btn-primary">
+                <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-primary">Export to PDF</a>
+                <div class="float-right">
+                    <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
+                        {{ csrf_field() }}{{ method_field('delete') }}
+                        <input type="submit" value="Restart" class="btn btn-danger">
+                    </form>
+                </div>
             </div>
         </div>
     </div>

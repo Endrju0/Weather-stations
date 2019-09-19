@@ -25,6 +25,7 @@
         @include('layouts.partials.nav')
 
         <main class="py-4 container">
+            @include('layouts.partials.messages')
             @yield('content')
         </main>
     </div>

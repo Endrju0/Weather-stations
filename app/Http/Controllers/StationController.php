@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Station;
 use App\StationReadings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StationController extends Controller
 {
@@ -54,14 +55,16 @@ class StationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show edit view of station (name, latlng etc)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $station = Station::find($id);
+
+        return view('station-edit')->with('station', $station);
     }
 
     /**
@@ -73,17 +76,35 @@ class StationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:3|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric'
+        ]);
+
+        if($validator->fails()) {
+            return back()->withErrors($validator);
+        } else {
+            $station = Station::find($id);
+            $station->name = $request->name;
+            $station->latitude = $request->latitude;
+            $station->longitude = $request->longitude;
+            $station->save();
+
+            return redirect()->route('station.show', $id)->with('success_message', 'Successfully updated station.');
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified station with its readings from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $station = Station::find($id);
+        $station->delete();
+        return redirect()->route('map', $id)->with('success_message', 'Successfully deleted station.');
     }
 }

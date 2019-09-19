@@ -11,6 +11,6 @@ class StationReadingsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\StationReadings::class, 10)->create();
+        factory(App\StationReadings::class, 30)->create();
     }
 }

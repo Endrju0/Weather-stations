@@ -46,13 +46,17 @@
             popup.setContent('Loading...')
 
             // console.log(e.layer.feature.properties.stationID);
-            var url = '{{ route('readings.show', ":id") }}';
-            url = url.replace(':id',e.layer.feature.properties.stationID);
+            var url_api = '{{ route('readings.show', ":id") }}';
+            url_api = url_api.replace(':id',e.layer.feature.properties.stationID);
+            
+            var url_station = '{{ route('station.show', ":id") }}';
+            url_station = url_station.replace(':id',e.layer.feature.properties.stationID);
 
-            axios.get(url)
+            axios.get(url_api)
             .then(function (response) {
                 console.log(response);
                 popup.setContent(
+                    '<p><a href="' + url_station + '"><b>' + response.data.name + '</b></a></p>' +
                     '<p> Temperature: ' + response.data.temperature + '</p>' +
                     '<p> Pressure: ' + response.data.pressure + '</p>' +
                     '<p> Humidity: ' + response.data.humidity + '</p>'
