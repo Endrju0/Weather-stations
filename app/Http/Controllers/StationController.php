@@ -49,6 +49,7 @@ class StationController extends Controller
     {
         $station = Station::where('id', $id)->firstOrFail();
         $stationReadings = StationReadings::where('station_id', $id)->get();
+        
         return view('station', compact('station', 'stationReadings'));
     }
 
