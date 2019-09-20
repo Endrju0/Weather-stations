@@ -25,4 +25,4 @@ Route::patch('/station/{id}', 'StationController@update')->name('station.update'
 Route::delete('/station/{id}', 'StationController@destroy')->name('station.destroy');
 Route::delete('/station/{id}/restart', 'StationReadingsController@destroy')->name('station-readings.destroy');
 Route::get('/station/{id}/key', 'KeyController@update')->name('key.update');
-
+Route::get('/station/{id}/pdf', 'StationController@pdf')->name('station.pdf');

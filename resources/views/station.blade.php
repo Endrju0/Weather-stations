@@ -19,7 +19,7 @@
             <div class="card-body" id="mapid"></div>
             <div class="card-footer">
                 <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-primary">Export to PDF</a>
+                <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary">Export to PDF</a>
                 <div class="float-right">
                     <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
                         {{ csrf_field() }}{{ method_field('delete') }}

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Station;
 use App\StationReadings;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class StationController extends Controller
 {
@@ -106,5 +108,43 @@ class StationController extends Controller
         $station = Station::find($id);
         $station->delete();
         return redirect()->route('map', $id)->with('success_message', 'Successfully deleted station.');
+    }
+
+    /**
+     * Export station data to pdf
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pdf($id)
+    {        
+        $station = Station::find($id);
+        $readings = StationReadings::where('station_id', $id);
+
+        $avgTemperature = $readings->avg('temperature');
+        $avgHumidity = $readings->avg('humidity');
+        $avgPressure = $readings->avg('pressure');
+        
+        $minTemperature = $readings->orderBy('temperature', 'ASC')->first();
+        $minHumidity = $readings->orderBy('humidity', 'ASC')->first();
+        $minPressure = $readings->orderBy('pressure', 'ASC')->first();
+
+        $maxTemperature = $readings->orderBy('temperature', 'DESC')->first();
+        $maxHumidity = $readings->orderBy('humidity', 'DESC')->first();
+        $maxPressure = $readings->orderBy('pressure', 'DESC')->first();
+    
+        $pdf = PDF::loadView('pdf', [
+            'station' => $station,
+            'avgTemperature' => $avgTemperature,
+            'avgHumidity' => $avgHumidity,
+            'avgPressure' => $avgPressure,
+            'minTemperature' => $minTemperature,
+            'minHumidity' => $minHumidity,
+            'minPressure' => $minPressure,
+            'maxTemperature' => $maxTemperature,
+            'maxHumidity' => $maxHumidity,
+            'maxPressure' => $maxPressure
+        ]);
+        return $pdf->download('stations-data.pdf');
     }
 }
