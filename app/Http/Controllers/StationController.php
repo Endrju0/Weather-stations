@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Station;
 use App\StationReadings;
-use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class StationController extends Controller
 {
@@ -28,7 +30,10 @@ class StationController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::guest()) return redirect()->route('map')->withErrors('You\'re not allowed to do this.');
+        $key = Str::random(20);
+        session()->put('key', $key);
+        return view('station-create')->with('key', $key);;
     }
 
     /**
@@ -39,7 +44,28 @@ class StationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:3|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric'
+        ]);
+        $user = Auth::user();
+        
+        if($validator->fails()) {
+            return back()->withErrors($validator);
+        } else {
+            $station = new Station;
+            $station->name = $request->name;
+            $station->latitude = $request->latitude;
+            $station->longitude = $request->longitude;
+            $station->key = $request->session()->get('key');
+            $station->user_id = $user->id;
+            $station->save();
+
+            $request->session()->forget('key');
+
+            return redirect()->route('map')->with('success_message', 'Successfully created station.');
+        }
     }
 
     /**
@@ -135,6 +161,7 @@ class StationController extends Controller
     
         $pdf = PDF::loadView('pdf', [
             'station' => $station,
+            'date' => \Carbon\Carbon::now(),
             'avgTemperature' => $avgTemperature,
             'avgHumidity' => $avgHumidity,
             'avgPressure' => $avgPressure,

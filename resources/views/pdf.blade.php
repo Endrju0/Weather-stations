@@ -40,6 +40,7 @@
   <body>
     <h1>{{ $station->name}}</h1>
     <h5>{{ $station->latitude}} : {{ $station->longitude}}</h5>
+    <h5>Generated at {{ $date }}</h5>
     <table>
       <tr>
         <th>MEASUREMENT</th>
@@ -48,60 +49,60 @@
       <tr>
         <td>Average temperature</td>
         <td>
-          {{ $avgTemperature }}
+          {{ $avgTemperature }}°C
         </td>
       </tr>
       <tr>
         <td>Average humidity</td>
         <td>
-          {{ $avgHumidity }}
+          {{ $avgHumidity }} %
         </td>
       </tr>
       <tr>
         <td>Average pressure</td>
         <td>
-          {{ $avgPressure }}
+          {{ $avgPressure }} hPa
         </td>
       </tr>
       <tr>
         <td>Min temperature</td>
         <td>
-          {{ $minTemperature->temperature }}
+          {{ $minTemperature->temperature }}°C
           <p class="small">{{ $minTemperature->created_at }}</p>
         </td>
       </tr>
       <tr>
         <td>Min humidity</td>
         <td>
-          {{ $minHumidity->humidity }}
+          {{ $minHumidity->humidity }} %
           <p class="small">{{ $minHumidity->created_at }}</p>
         </td>
       </tr>
       <tr>
         <td>Min pressure</td>
         <td>
-          {{ $minPressure->pressure }}
+          {{ $minPressure->pressure }} hPa
           <p class="small">{{ $minPressure->created_at }}</p>
         </td>
       </tr>
       <tr>
         <td>Max temperature</td>
         <td>
-          {{ $maxTemperature->temperature }}
+          {{ $maxTemperature->temperature }}°C
           <p class="small">{{ $maxTemperature->created_at }}</p>
         </td>
       </tr>
       <tr>
         <td>Max humidity</td>
         <td>
-          {{ $maxHumidity->humidity }}
+          {{ $maxHumidity->humidity }} %
           <p class="small">{{ $maxHumidity->created_at }}</p>
         </td>
       </tr>
       <tr>
         <td>Max pressure</td>
         <td>
-          {{ $maxPressure->pressure }}
+          {{ $maxPressure->pressure }} hPa
           <p class="small">{{ $maxPressure->created_at }}</p>
         </td>
       </tr>
