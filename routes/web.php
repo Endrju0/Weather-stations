@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/map', 'MapController@index')->name('map');
 
+Route::get('/list', 'StationListController@index')->name('station-list.index');
+
 Route::get('/station/create', 'StationController@create')->name('station.create');
 Route::post('/station', 'StationController@store')->name('station.store');
 

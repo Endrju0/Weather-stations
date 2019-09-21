@@ -146,6 +146,9 @@ class StationController extends Controller
     {        
         $station = Station::find($id);
         $readings = StationReadings::where('station_id', $id);
+        if($readings->get()->isEmpty()) {
+            return redirect()->back()->withErrors('There isn\'t any data to export!');
+        }
 
         $avgTemperature = $readings->avg('temperature');
         $avgHumidity = $readings->avg('humidity');
