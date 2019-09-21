@@ -35,7 +35,6 @@
         // pin stations to map
         L.geoJSON(response.data, {
             pointToLayer: function(geoJsonStation, latlng) {
-                // console.log(geoJsonStation);
                 return L.marker(latlng);
             }
         })
@@ -56,7 +55,7 @@
             .then(function (response) {
                 console.log(response);
                 popup.setContent(
-                    '<p><a href="' + url_station + '"><b>' + response.data.name + '</b></a></p>' +
+                    '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
                     '<p> Temperature: ' + response.data.temperature + '</p>' +
                     '<p> Pressure: ' + response.data.pressure + '</p>' +
                     '<p> Humidity: ' + response.data.humidity + '</p>'
@@ -65,6 +64,13 @@
             })
             .catch(function (error) {
                 console.log(error);
+                popup.setContent(
+                    '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
+                    '<p> Temperature: null</p>' +
+                    '<p> Pressure: null</p>' +
+                    '<p> Humidity: null</p>'
+                );
+                popup.update();
             });
 
         })

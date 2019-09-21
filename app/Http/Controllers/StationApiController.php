@@ -22,6 +22,7 @@ class StationApiController extends Controller
             return [
                 'type'       => 'Feature',
                 'properties' => [
+                    "name" => $station->name,
                     "stationID" => $station->id,
                 ],
                 'geometry'   => [

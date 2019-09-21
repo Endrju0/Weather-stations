@@ -72,7 +72,7 @@ class StationReadingsApiController extends Controller
         $readings = StationReadings::where('station_id', '=', $stationID)->latest()->firstOrFail();
 
         return response()->json([
-                'name' => $readings->station->name,
+                // 'name' => $readings->station->name,
                 'temperature' => $readings->temperature,
                 'pressure' => $readings->pressure,
                 'humidity' => $readings->humidity,
