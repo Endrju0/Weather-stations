@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light bg-nav shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             Weather Stations
@@ -32,7 +32,13 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right bg-nav" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-item o">
+                                <div class="row">
+                                    <div class="col-7">Night mode</div>
+                                    <div class="col-5"><input id="dark_theme" type="checkbox" class="switch" onchange="swapStyle()"></div>
+                                </div>
+                            </div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">

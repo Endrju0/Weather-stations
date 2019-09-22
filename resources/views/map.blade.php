@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="card">
-    <div class="card-body" id="mapid"></div>
+    <div class="card-body custom-popup" id="mapid"></div>
 </div>
 @endsection
 

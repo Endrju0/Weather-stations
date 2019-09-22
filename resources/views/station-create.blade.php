@@ -44,7 +44,7 @@
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="Create" class="btn btn-primary">
-                    <a href="{{ route('map')}}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('station-list.index')}}" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -69,7 +69,7 @@
     function updateMarker(lat, lng) {
         marker
         .setLatLng([lat, lng])
-        .bindPopup("Your location :  " + marker.getLatLng().toString())
+        .bindPopup("Your location :  " + marker.getLatLng().lat.toString() + ' : ' + marker.getLatLng().lng.toString())
         .openPopup();
         return false;
     };

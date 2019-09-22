@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link id="pagestyle" href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
 <body>
@@ -30,6 +30,31 @@
         </main>
     </div>
     
+    <script>
+        window.onload = function() {
+            var dark = "{{ asset('css/dark_theme.css') }}";
+            var light = "{{ asset('css/app.css') }}";
+            if(Cookies.get('style') == 'dark') {
+                document.getElementById("dark_theme").checked = true;
+                document.getElementById('pagestyle').setAttribute('href', dark);
+            } else {
+                document.getElementById('pagestyle').setAttribute('href', light);
+            }
+        };
+        
+        function swapStyle() {
+            var toggler = document.getElementById("dark_theme");
+            var dark = "{{ asset('css/dark_theme.css') }}";
+            var light = "{{ asset('css/app.css') }}";
+            if(toggler.checked == true) {
+                document.getElementById('pagestyle').setAttribute('href', dark);
+                Cookies.set('style', 'dark');
+            } else {
+                document.getElementById('pagestyle').setAttribute('href', light);
+                Cookies.remove('style');
+            }
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

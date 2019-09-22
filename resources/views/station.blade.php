@@ -6,7 +6,7 @@
     crossorigin=""/>
 
 <style>
-    #mapid { min-height: 300px; }
+    #mapid { min-height: 300px; }  
 </style>
 @endsection
 
@@ -88,8 +88,9 @@
 
 <script>
     //temperatureChart    
+    Chart.defaults.global.defaultFontColor=getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
     var ctx = document.getElementById('temperatureChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    var chartTemperature = new Chart(ctx, {
         type: 'line',
 
         data: {
@@ -111,12 +112,14 @@
                 },
             },
             scales: {
+                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
                 yAxes: [{
                     ticks: {
                         userCallback: function(item) {
                             return item + '°C';
                         },
-                    }
+                    },
+                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
                 }]
             },
         }
@@ -125,7 +128,7 @@
 <script>
     //humidityChart    
     var ctx = document.getElementById('humidityChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    var chartHumidity = new Chart(ctx, {
         type: 'line',
 
         data: {
@@ -148,12 +151,14 @@
                 },
             },
             scales: {
+                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
                 yAxes: [{
                     ticks: {
                         userCallback: function(item) {
                             return item + ' %';
                         },
-                    }
+                    },
+                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
                 }]
             },
         }
@@ -163,14 +168,14 @@
 <script>
     //pressureChart    
     var ctx = document.getElementById('pressureChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    var chartPressure = new Chart(ctx, {
         type: 'line',
 
         data: {
             labels: timestamp,
             datasets: [{
-                backgroundColor: 'rgba(92, 92, 92, 0.315)',
-                borderColor: 'rgb(92, 92, 92)',
+                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--pressure-secondary-color'),
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--pressure-primary-color'),
                 data: pressure
             }]
         },
@@ -188,12 +193,14 @@
                 },
             },
             scales: {
+                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
                 yAxes: [{
                     ticks: {
                         userCallback: function(item) {
                             return item + ' hPa';
                         },
-                    }
+                    },
+                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
                 }]
             },
         }

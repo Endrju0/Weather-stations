@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//leaflet
+@import 'leaflet_popup';
+
+//toggle_switch
+@import 'dark_theme/toggle_switch.scss';
+
+
+:root {
+    --chart-color: #444444;
+    --chart-bg-color: #dadada;
+    --pressure-primary-color: rgb(92, 92, 92);
+    --pressure-secondary-color: rgba(92, 92, 92, 0.315);
+}
+
+.bg-nav {
+    background: $white;
+}

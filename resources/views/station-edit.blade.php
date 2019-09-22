@@ -78,11 +78,11 @@
     function updateMarker(lat, lng) {
         marker
         .setLatLng([lat, lng])
-        .bindPopup("Your location :  " + marker.getLatLng().toString())
+        .bindPopup("Your location :  " + marker.getLatLng().lat.toString() + ' : ' + marker.getLatLng().lng.toString())
         .openPopup();
         return false;
     };
-
+console.log(marker);
     map.on('click', function(e) {
         let latitude = e.latlng.lat.toString().substring(0, 15);
         let longitude = e.latlng.lng.toString().substring(0, 15);

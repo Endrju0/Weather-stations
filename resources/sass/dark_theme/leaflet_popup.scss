@@ -1,0 +1,6 @@
+.custom-popup .leaflet-popup-tip,
+.custom-popup .leaflet-popup-content-wrapper {
+    background: linear-gradient(to top, $body-bg, $body-bg 50%, $body-bg 72%, $body-color 72%);
+    color: $body-color;
+    font-size:15px;
+}

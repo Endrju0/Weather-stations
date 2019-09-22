@@ -70,9 +70,9 @@ body {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #212529;
+  color: #95979A;
   text-align: left;
-  background-color: #f8fafc;
+  background-color: #272B30;
 }
 
 [tabindex="-1"]:focus {
@@ -517,7 +517,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #f8fafc;
+  background-color: #272B30;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -1620,7 +1620,7 @@ pre code {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #212529;
+  color: #95979A;
 }
 
 .table th,
@@ -1670,7 +1670,7 @@ pre code {
 }
 
 .table-hover tbody tr:hover {
-  color: #212529;
+  color: #95979A;
   background-color: rgba(0, 0, 0, 0.075);
 }
 
@@ -2070,7 +2070,7 @@ select.form-control:focus::-ms-value {
   padding-bottom: 0.375rem;
   margin-bottom: 0;
   line-height: 1.6;
-  color: #212529;
+  color: #95979A;
   background-color: transparent;
   border: solid transparent;
   border-width: 1px 0;
@@ -2517,7 +2517,7 @@ textarea.form-control.is-invalid {
 .btn {
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: #95979A;
   text-align: center;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -2540,7 +2540,7 @@ textarea.form-control.is-invalid {
 }
 
 .btn:hover {
-  color: #212529;
+  color: #95979A;
   text-decoration: none;
 }
 
@@ -3274,7 +3274,7 @@ input[type=button].btn-block {
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 0.9rem;
-  color: #212529;
+  color: #95979A;
   text-align: left;
   list-style: none;
   background-color: #fff;
@@ -4097,15 +4097,15 @@ input[type=button].btn-block {
 }
 
 .custom-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #272B30, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #272B30, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range:focus::-ms-thumb {
-  box-shadow: 0 0 0 1px #f8fafc, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
+  box-shadow: 0 0 0 1px #272B30, 0 0 0 0.2rem rgba(52, 144, 220, 0.25);
 }
 
 .custom-range::-moz-focus-outer {
@@ -4305,8 +4305,8 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #f8fafc;
-  border-color: #dee2e6 #dee2e6 #f8fafc;
+  background-color: #272B30;
+  border-color: #dee2e6 #dee2e6 #272B30;
 }
 
 .nav-tabs .dropdown-menu {
@@ -5534,7 +5534,7 @@ a.badge-dark.focus {
 }
 
 .list-group-item-action:active {
-  color: #212529;
+  color: #95979A;
   background-color: #e9ecef;
 }
 
@@ -6433,7 +6433,7 @@ a.close.disabled {
 
 .popover-body {
   padding: 0.5rem 0.75rem;
-  color: #212529;
+  color: #95979A;
 }
 
 .carousel {
@@ -10502,7 +10502,7 @@ a.text-dark:focus {
 }
 
 .text-body {
-  color: #212529 !important;
+  color: #95979A !important;
 }
 
 .text-muted {
@@ -10646,8 +10646,8 @@ a.text-dark:focus {
 
 .custom-popup .leaflet-popup-tip,
 .custom-popup .leaflet-popup-content-wrapper {
-  background: linear-gradient(to top, #f8fafc, #f8fafc 50%, #eee 72%, #fff 72%);
-  color: #333;
+  background: linear-gradient(to top, #272B30, #272B30 50%, #272B30 72%, #95979A 72%);
+  color: #95979A;
   font-size: 15px;
 }
 
@@ -10688,13 +10688,70 @@ input[type=checkbox].switch:checked:after {
 }
 
 :root {
-  --chart-color: #444444;
-  --chart-bg-color: #dadada;
-  --pressure-primary-color: rgb(92, 92, 92);
-  --pressure-secondary-color: rgba(92, 92, 92, 0.315);
+  --chart-color: #999999;
+  --chart-bg-color: #424242;
+  --pressure-primary-color: rgb(255, 255, 255);
+  --pressure-secondary-color: rgba(255, 255, 255, 0.315);
 }
 
 .bg-nav {
-  background: #fff;
+  background: #2D3338;
+  color: #95979A;
+}
+
+.navbar-light,
+.navbar-brand,
+.nav-link,
+.dropdown-toggle,
+.dropdown-item {
+  color: #95979A !important;
+}
+
+.dropdown-item:hover {
+  background: #2D3338;
+  color: #fff;
+}
+
+.form-control {
+  background: #25282B;
+  color: #fff;
+}
+
+.form-control:enabled,
+.form-control:focus {
+  background: #25282B;
+  color: #fff;
+}
+
+.form-control:disabled {
+  background: #212529;
+  color: #adb5bd;
+}
+
+.card {
+  background: #2D3338;
+}
+
+.card-header,
+.card-footer {
+  background: #444951;
+}
+
+.card-header {
+  color: #fff;
+}
+
+.card-body {
+  background: #2D3338;
+}
+
+tbody {
+  background: #2D3338;
+}
+
+.input-group-append .btn,
+.input-group-append .btn-outline-secondary {
+  color: #fff;
+  border-color: #fff;
 }
 

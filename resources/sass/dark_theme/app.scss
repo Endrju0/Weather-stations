@@ -1,0 +1,65 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+//leaflet
+@import 'leaflet_popup';
+
+//toggle_switch
+@import 'toggle_switch.scss';
+
+:root {
+    --chart-color: #999999;
+    --chart-bg-color: #424242;
+    --pressure-primary-color: rgb(255, 255, 255);
+    --pressure-secondary-color: rgba(255, 255, 255, 0.315);
+}
+.bg-nav {
+    background: $custom-gray;
+    color: $body-color; 
+}
+.navbar-light, .navbar-brand, .nav-link, .dropdown-toggle, .dropdown-item {
+    color: $body-color !important; 
+}
+.dropdown-item:hover {
+    background: $custom-gray;
+    color: $white;
+}
+.form-control {
+    background: $custom-form-gray;
+    color: $white;
+    &:enabled, &:focus {
+        background: $custom-form-gray;
+        color: $white;
+    }
+    &:disabled {
+        background: $gray-900;
+        color: $gray-500;
+    }
+}
+.card {
+    background: $custom-gray;
+}
+.card-header, .card-footer {
+    background: $custom-lt-gray;
+}
+.card-header {
+    color: $white;
+}
+.card-body {
+    background: $custom-gray;
+}
+tbody {
+    background: $custom-gray;
+}
+.input-group-append {
+    .btn, .btn-outline-secondary {
+        color: $white;
+        border-color: $white;
+    }
+}
