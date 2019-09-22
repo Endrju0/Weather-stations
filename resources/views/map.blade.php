@@ -29,12 +29,22 @@
 </script>
 
 <script>
+    var redMarker = L.icon ({
+        iconUrl: "{{ asset('marker-red.png') }}",
+        iconAnchor: [12, 40]
+    });
     //get stations latlng, name
-    axios.get('{{ route('stations.index') }}')
+    axios.get('{{ route('stations.index') }}', {
+        params: {
+            user_id: {{ Auth::id() }}
+        }
+    })
     .then(function (response) {
         // pin stations to map
         L.geoJSON(response.data, {
             pointToLayer: function(geoJsonStation, latlng) {
+                if(geoJsonStation.properties.ownerID == {{ Auth::id() }})
+                    return L.marker(latlng, {icon: redMarker});
                 return L.marker(latlng);
             }
         })
@@ -53,7 +63,6 @@
 
             axios.get(url_api)
             .then(function (response) {
-                console.log(response);
                 popup.setContent(
                     '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
                     '<p> Temperature: ' + response.data.temperature + '</p>' +

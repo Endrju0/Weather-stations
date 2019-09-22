@@ -91,6 +91,7 @@ class StationController extends Controller
     public function edit($id)
     {
         $station = Station::find($id);
+        if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
 
         return view('station-edit')->with('station', $station);
     }
@@ -114,6 +115,7 @@ class StationController extends Controller
             return back()->withErrors($validator);
         } else {
             $station = Station::find($id);
+            if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
             $station->name = $request->name;
             $station->latitude = $request->latitude;
             $station->longitude = $request->longitude;
@@ -132,6 +134,7 @@ class StationController extends Controller
     public function destroy($id)
     {
         $station = Station::find($id);
+        if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
         $station->delete();
         return redirect()->route('map', $id)->with('success_message', 'Successfully deleted station.');
     }

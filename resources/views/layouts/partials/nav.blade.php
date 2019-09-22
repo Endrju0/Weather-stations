@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-nav shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ route('map') }}">
             Weather Stations
-            {{-- {{ config('app.name', 'Laravel') }} --}}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -33,12 +32,13 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right bg-nav" aria-labelledby="navbarDropdown">
-                            <div class="dropdown-item o">
+                            <div class="dropdown-item">
                                 <div class="row">
                                     <div class="col-7">Night mode</div>
                                     <div class="col-5"><input id="dark_theme" type="checkbox" class="switch" onchange="swapStyle()"></div>
                                 </div>
                             </div>
+                            <a class="dropdown-item" href="{{ route('station-list.index') }}">Stations list</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">

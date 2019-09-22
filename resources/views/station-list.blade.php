@@ -44,6 +44,7 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center col-12">{{ $stations->links() }}</div>
     </div>
 @endsection
 
