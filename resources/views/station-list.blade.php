@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($stations as $key => $station)    
+                    @forelse($stations as $key => $station)    
                     <tr>
                         <th scope="row">{{ ++$key }}</th>
                         <td>{{ $station->name }}</td>
@@ -41,7 +41,9 @@
                         <td>{{ $station->longitude }}</td>
                         <td><a href="{{ route('station.show', $key) }}" class="btn btn-sm btn-secondary">Show</a></td>
                     </tr>
-                    @endforeach
+                    @empty
+                        <td colspan="5">No stations available.</td>
+                    @endforelse
                 </tbody>
             </table>
             <div class="d-flex justify-content-center col-12">{{ $stations->links() }}</div>
