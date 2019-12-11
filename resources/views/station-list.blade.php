@@ -15,7 +15,11 @@
         <div class="card-header">
             <div class="row">
                 <form method="GET" action="" class="form-inline ml-2">
-                    <input placeholder="Station Name" name="query" type="text" class="form-control mr-2" value="{{ request('query') }}">
+                    <input placeholder="Station Name" name="name" type="text" class="form-control mr-2" value="@if($name != null){{ $name }}@endif">
+                    <div class="custom-control custom-checkbox mx-2">
+                        <input type="checkbox" class="custom-control-input" id="self" name="self" @if($self != null) checked @endif>
+                        <label class="custom-control-label" for="self">Show only mine</label>
+                    </div>
                     <input type="submit" value="Search" class="btn btn-outline-primary">
                     <a href="{{ route('station-list.index') }}" class="btn btn-link">Reset</a>
                 </form>
@@ -39,7 +43,7 @@
                         <td>{{ $station->name }}</td>
                         <td>{{ $station->latitude }}</td>
                         <td>{{ $station->longitude }}</td>
-                        <td><a href="{{ route('station.show', $key) }}" class="btn btn-sm btn-secondary">Show</a></td>
+                        <td><a href="{{ route('station.show', $station->id) }}" class="btn btn-sm btn-secondary">Show</a></td>
                     </tr>
                     @empty
                         <td colspan="5">No stations available.</td>

@@ -19,16 +19,18 @@
         <div class="card">
             <div class="card-header">{{ $station->name }}</div>
             <div class="card-body" id="mapid"></div>
-            <div class="card-footer">
-                <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary">Export to PDF</a>
-                <div class="float-right">
-                    <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
-                        {{ csrf_field() }}{{ method_field('delete') }}
-                        <input type="submit" value="Restart" class="btn btn-danger">
-                    </form>
+            @if(Auth::id() == $station->user_id)
+                <div class="card-footer">
+                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary">Export to PDF</a>
+                    <div class="float-right">
+                        <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
+                            {{ csrf_field() }}{{ method_field('delete') }}
+                            <input type="submit" value="Restart" class="btn btn-danger">
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
     <div class="col-md-6 mb-3">

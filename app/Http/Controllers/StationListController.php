@@ -23,12 +23,18 @@ class StationListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $stationQuery = Station::query();
-        $stationQuery->where('name', 'like', '%'.request('query').'%')->where('user_id', Auth::id());
+        $stationQuery->where('name', 'like', '%'.$request->name.'%');
+        if($request->self != null && $request->self == 'on')
+            $stationQuery->where('user_id', Auth::id());
         $stations = $stationQuery->paginate(5);
 
-        return view('station-list', compact('stations'));
+        return view('station-list')->with([
+            'stations' => $stations,
+            'name' => $request->name,
+            'self' => $request->self
+        ]);
     }
 }

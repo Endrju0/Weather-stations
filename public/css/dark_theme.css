@@ -10646,7 +10646,7 @@ a.text-dark:focus {
 
 .custom-popup .leaflet-popup-tip,
 .custom-popup .leaflet-popup-content-wrapper {
-  background: linear-gradient(to top, #272B30, #272B30 50%, #272B30 72%, #95979A 72%);
+  background: linear-gradient(to top, #272B30, #272B30 50%, #272B30 72%, #DEE7E7 72%);
   color: #95979A;
   font-size: 15px;
 }
