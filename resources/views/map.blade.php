@@ -33,7 +33,8 @@
 <script>
     var redMarker = L.icon ({
         iconUrl: "{{ asset('marker-red.png') }}",
-        iconAnchor: [12, 40]
+        iconAnchor: [12, 40],
+        popupAnchor: [0, -32],
     });
     //get stations latlng, name
     axios.get('{{ route('stations.index') }}', {

@@ -35,10 +35,11 @@
                             <div class="dropdown-item">
                                 <div class="row">
                                     <div class="col-7">Night mode</div>
-                                    <div class="col-5"><input id="dark_theme" type="checkbox" class="switch" onchange="swapStyle()"></div>
+                                    <div class="col-5"><input id="dark_theme" type="checkbox" class="switch"></div>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="{{ route('station-list.index') }}">Stations list</a>
+                            <a class="dropdown-item" href="{{ route('station.create') }}">Add station</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">

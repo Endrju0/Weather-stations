@@ -64,6 +64,7 @@
     crossorigin=""></script>
 
 <script>
+    // Leaflet
     var map = L.map('mapid').setView([{{ $station->latitude }}, {{ $station->longitude }}], {{ config('leaflet.zoom') }});
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -75,6 +76,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script>
+    // Readings
     var readings = {!! json_encode($stationReadings) !!};
     var timestamp = new Array();  
     var temperature = new Array();  
@@ -86,127 +88,84 @@
         humidity.push(readings[reading]['humidity']);
         pressure.push(readings[reading]['pressure']);
     }
+
+    var backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
+    // Chart js object
+    function generateChart(data, label, pressurePrimaryColor, pressureSecondaryColor, bgColor) {
+        return pressureInfo = {
+            type: 'line',
+
+            data: {
+                labels: timestamp,
+                datasets: [{
+                    backgroundColor: pressurePrimaryColor,
+                    borderColor: pressureSecondaryColor,
+                    data: data
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItems, data) { 
+                            return tooltipItems.yLabel + ' ' + label;
+                        }
+                    },
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: { color: bgColor },
+                        ticks: { fontColor: bgColor }
+                        }],
+                    yAxes: [{
+                        ticks: {
+                            userCallback: function(item) {
+                                return item + ' ' + label;
+                            },
+                            fontColor: bgColor
+                        },
+                        gridLines: { color: bgColor }
+                    }]
+                },
+            }
+        };
+    }
 </script>
 
 <script>
     //temperatureChart    
-    Chart.defaults.global.defaultFontColor=getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
-    var ctx = document.getElementById('temperatureChart').getContext('2d');
-    var chartTemperature = new Chart(ctx, {
-        type: 'line',
+    var ctxTemperature = document.getElementById('temperatureChart').getContext('2d');
+    var chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );
 
-        data: {
-            labels: timestamp,
-            datasets: [{
-                backgroundColor: 'rgba(255, 99, 133, 0.315)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: temperature
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },tooltips: {
-                callbacks: {
-                    label: function(tooltipItems, data) { 
-                        return tooltipItems.yLabel + '°C';
-                    }
-                },
-            },
-            scales: {
-                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
-                yAxes: [{
-                    ticks: {
-                        userCallback: function(item) {
-                            return item + '°C';
-                        },
-                    },
-                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
-                }]
-            },
-        }
-    });
-</script>
-<script>
     //humidityChart    
-    var ctx = document.getElementById('humidityChart').getContext('2d');
-    var chartHumidity = new Chart(ctx, {
-        type: 'line',
+    var ctxHumidity = document.getElementById('humidityChart').getContext('2d');
+    var chartHumidity = new Chart( ctxHumidity, generateChart(humidity, '%', 'rgba(2, 204, 255, 0.315)', 'rgb(2, 204, 255)', backgroundColor) );
 
-        data: {
-            labels: timestamp,
-            datasets: [{
-                backgroundColor: 'rgba(2, 204, 255, 0.315)',
-                borderColor: 'rgb(2, 204, 255)',
-                data: humidity
-            }]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItems, data) { 
-                        return tooltipItems.yLabel + ' %';
-                    }
-                },
-            },
-            scales: {
-                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
-                yAxes: [{
-                    ticks: {
-                        userCallback: function(item) {
-                            return item + ' %';
-                        },
-                    },
-                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
-                }]
-            },
-        }
-    });
-</script>
-
-<script>
     //pressureChart    
-    var ctx = document.getElementById('pressureChart').getContext('2d');
-    var chartPressure = new Chart(ctx, {
-        type: 'line',
+    var ctxPressure = document.getElementById('pressureChart').getContext('2d');
+    var pressureSecondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-secondary-color');
+    var pressurePrimaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-primary-color');
+    
+    var chartPressure = new Chart( ctxPressure, generateChart(pressure, 'hPa', pressureSecondaryColor, pressurePrimaryColor, backgroundColor) );
 
-        data: {
-            labels: timestamp,
-            datasets: [{
-                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--pressure-secondary-color'),
-                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--pressure-primary-color'),
-                data: pressure
-            }]
-        },
+    // Swapping colors of chart (if dark_theme is called)
+    function chartColorSwap() {
+        pressureSecondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-secondary-color');
+        pressurePrimaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-primary-color');
+        backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
 
-        // Configuration options go here
-        options: {
-            legend: {
-                display: false
-            },
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItems, data) { 
-                        return tooltipItems.yLabel + ' hPa';
-                    }
-                },
-            },
-            scales: {
-                xAxes: [{gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }}],
-                yAxes: [{
-                    ticks: {
-                        userCallback: function(item) {
-                            return item + ' hPa';
-                        },
-                    },
-                    gridLines: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-bg-color') }
-                }]
-            },
-        }
-    });
+        chartPressure.destroy();
+        chartHumidity.destroy();
+        chartTemperature.destroy();
+
+        chartPressure = new Chart( ctxPressure, generateChart(pressure, 'hPa', pressureSecondaryColor, pressurePrimaryColor, backgroundColor) );
+        chartHumidity = new Chart( ctxHumidity, generateChart(humidity, '%', 'rgba(2, 204, 255, 0.315)', 'rgb(2, 204, 255)', backgroundColor) );
+        chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );
+    }
 </script>
  
 @endpush

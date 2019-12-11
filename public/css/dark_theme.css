@@ -10688,8 +10688,7 @@ input[type=checkbox].switch:checked:after {
 }
 
 :root {
-  --chart-color: #999999;
-  --chart-bg-color: #424242;
+  --chart-color: #cacaca;
   --pressure-primary-color: rgb(255, 255, 255);
   --pressure-secondary-color: rgba(255, 255, 255, 0.315);
 }

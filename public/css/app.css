@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -10688,8 +10688,7 @@ input[type=checkbox].switch:checked:after {
 }
 
 :root {
-  --chart-color: #444444;
-  --chart-bg-color: #dadada;
+  --chart-color: #999999;
   --pressure-primary-color: rgb(92, 92, 92);
   --pressure-secondary-color: rgba(92, 92, 92, 0.315);
 }

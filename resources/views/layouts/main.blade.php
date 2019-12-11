@@ -17,7 +17,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link id="pagestyle" href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(isset($_COOKIE['style']) && $_COOKIE['style'] == 'dark')
+        <link id="pagestyle" href="{{ asset('css/dark_theme.css') }}" rel="stylesheet">
+    @else
+        <link id="pagestyle" href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
     @yield('styles')
 </head>
 <body>
@@ -42,6 +46,13 @@
             }
         };
         
+        document.getElementById('dark_theme').addEventListener('change', () => {
+            swapStyle();
+            setTimeout(() => {
+                chartColorSwap();
+            }, 100);
+        });
+
         function swapStyle() {
             var toggler = document.getElementById("dark_theme");
             var dark = "{{ asset('css/dark_theme.css') }}";
@@ -53,6 +64,7 @@
                 document.getElementById('pagestyle').setAttribute('href', light);
                 Cookies.remove('style');
             }
+            return true;
         }
     </script>
     @stack('scripts')
