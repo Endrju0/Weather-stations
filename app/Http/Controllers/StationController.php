@@ -24,16 +24,6 @@ class StationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -42,7 +32,7 @@ class StationController extends Controller
     {
         if(Auth::guest()) return redirect()->route('map')->withErrors('You\'re not allowed to do this.');
         $key = Str::random(20);
-        session()->put('key', $key);
+        session()->flash('key', $key);
         return view('station-create')->with('key', $key);;
     }
 
@@ -71,8 +61,6 @@ class StationController extends Controller
             $station->key = $request->session()->get('key');
             $station->user_id = $user->id;
             $station->save();
-
-            $request->session()->forget('key');
 
             return redirect()->route('map')->with('success_message', 'Successfully created station.');
         }

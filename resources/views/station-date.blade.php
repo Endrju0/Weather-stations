@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Weather Stations - ' . $station->name)
+@section('title', 'Weather Stations - Edit ' . $station->name)
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
@@ -8,53 +8,60 @@
     crossorigin=""/>
 
 <style>
-    #mapid { min-height: 300px; }  
+    #mapid { height: 300px; }
 </style>
 @endsection
 
 @section('content')
-
 <div class="row justify-content-center">
-    <div class="col-md-6 mb-3">
+    <div class="col-md-8">
         <div class="card">
-            <div class="card-header">{{ $station->name }}</div>
-            <div class="card-body" id="mapid"></div>
-            @if(Auth::id() == $station->user_id)
-                <div class="card-footer">
-                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
-                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary">Export to PDF</a>
-                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary">Select day</a>
-                    <div class="float-right">
-                        <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
-                            {{ csrf_field() }}{{ method_field('delete') }}
-                            <input type="submit" value="Restart" class="btn btn-danger">
-                        </form>
-                    </div>
+            <div class="card-header">Show station readings at specified date</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="name" class="control-label"> Station name </label>
+                    <h3>{{ $station->name }}</h3>
                 </div>
-            @endif
-        </div>
-    </div>
-    <div class="col-md-6 mb-3">
-        <div class="card">
-            <div class="card-header">Temperature</div>
-            <div class="card-body">
-                <canvas id="temperatureChart"></canvas>
+                <div class="form-group mt-3">
+                    <label for="query-group" class="control-label"> Select date </label>
+                    <form id="query-group" class="input-group" method="GET" action="">
+                        <input type="date" name="query" class="form-control" value="{{ $query }}">
+                        <span class="input-group-append">
+                            <input type="submit" value="Show" class="btn btn-outline-secondary">
+                        </span>
+                    </form>
+                </div>
+                <div id="date-container" class="form-group">
+                    @if($readings != null)
+                        @foreach ($readings as $reading)
+                            @if($loop->count == 1)
+                            <p>Temperature: <span class="text-primary">{{ $reading->temperature }} °C</span></p>
+                            <p>Pressure: <span class="text-primary">{{ $reading->pressure }} hPa</span></p>
+                            <p>Humidity: <span class="text-primary">{{ $reading->humidity }} %</span></p>
+                            <p>Retrived at: {{ $reading->created_at }}</p>
+                            @elseif($loop->last)
+                                <div class="col-12">
+                                    <hr>
+                                    <h3>Temperature</h3>
+                                    <canvas id="temperatureChart"></canvas>
+                                    <hr>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Humidity</h3>
+                                    <canvas id="humidityChart"></canvas>
+                                    <hr>
+                                </div>
+                                <div class="col-12">
+                                    <h3>Pressure</h3>
+                                    <canvas id="pressureChart"></canvas>
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-6 mb-3">
-        <div class="card">
-            <div class="card-header">Humidity</div>
-            <div class="card-body">
-                <canvas id="humidityChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 mb-3">
-        <div class="card">
-            <div class="card-header">Pressure</div>
-            <div class="card-body">
-                <canvas id="pressureChart"></canvas>
+            <div class="card-footer">
+                <a href="{{ route('station.show', $station->id) }}" class="btn btn-secondary">Return</a>
             </div>
         </div>
     </div>
@@ -62,25 +69,11 @@
 @endsection
 
 @push('scripts')
-<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-    crossorigin=""></script>
-
-<script>
-    // Leaflet
-    var map = L.map('mapid').setView([{{ $station->latitude }}, {{ $station->longitude }}], {{ config('leaflet.zoom') }});
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    }).addTo(map);
-
-    var point = L.marker([{{ $station->latitude }}, {{ $station->longitude }}]).addTo(map);
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script>
     // Readings
-    var readings = {!! json_encode($stationReadings) !!};
+    var readings = {!! json_encode($readings) !!};
     var timestamp = new Array();  
     var temperature = new Array();  
     var humidity = new Array();  
@@ -170,5 +163,4 @@
         chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );
     }
 </script>
- 
 @endpush

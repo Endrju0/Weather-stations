@@ -10,6 +10,29 @@ use Illuminate\Support\Facades\Auth;
 class StationReadingsController extends Controller
 {
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id, Request $request)
+    {
+        $station = Station::find($id);
+        $readings = null;
+        if($request->input('query') != null) {
+            $readings = StationReadings::query()
+                                        ->where('station_id', $id)
+                                        ->whereDate('created_at', $request->input('query')) //'2019-11-23'
+                                        ->get();
+        }
+        return view('station-date')->with([
+            'station' => $station,
+            'readings' => $readings,
+            'query' => $request->input('query'),
+        ]);
+    }
+
+    /**
      * Remove the specified station readings from storage.
      *
      * @param  int  $id
