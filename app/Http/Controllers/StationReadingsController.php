@@ -21,9 +21,9 @@ class StationReadingsController extends Controller
         $readings = null;
         if($request->input('query') != null) {
             $readings = StationReadings::query()
-                                        ->where('station_id', $id)
-                                        ->whereDate('created_at', $request->input('query')) //'2019-11-23'
-                                        ->get();
+                            ->where('station_id', $id)
+                            ->whereDate('created_at', $request->input('query'))
+                            ->get();
         }
         return view('station-date')->with([
             'station' => $station,

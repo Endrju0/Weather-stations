@@ -16,6 +16,7 @@ class Station extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Delete station with its readings
     public static function boot() {
         parent::boot();
 

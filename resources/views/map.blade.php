@@ -9,12 +9,49 @@
     
 <style>
     #mapid { min-height: 500px; }
+    .another-popup .leaflet-popup-content-wrapper {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        color: #ff0000;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 2px;
+        border-radius: 0px;
+        text-align: left;
+        box-shadow: none;
+    }
+    .another-popup .leaflet-popup-content-wrapper a {
+        color: transparent; 
+    }
+    .another-popup .leaflet-popup-tip-container {
+        width: 57px;
+        height: 15px;
+    }
+    .another-popup .leaflet-popup-tip {
+        background: transparent;
+        border: none;
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="card">
     <div class="card-body custom-popup" id="mapid"></div>
+    <div class="card-footer">
+        <div id="filters" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+              <input type="checkbox" name="temperature" autocomplete="off"> Temperature
+            </label>
+            <label class="btn btn-primary">
+              <input type="checkbox" name="humidity" autocomplete="off"> Humidity
+            </label>
+            <label class="btn btn-primary">
+              <input type="checkbox" name="pressure" autocomplete="off"> Pressure
+            </label>
+          </div>
+        
+        <a href="#" class="btn btn-secondary" onclick="filter();">Show temperatures</a>
 </div>
 @endsection
 
@@ -60,6 +97,7 @@
             // console.log(e.layer.feature.properties.stationID);
             var url_api = '{{ route('readings.show', ":id") }}';
             url_api = url_api.replace(':id',e.layer.feature.properties.stationID);
+            console.log(url_api);
             
             var url_station = '{{ route('station.show', ":id") }}';
             url_station = url_station.replace(':id',e.layer.feature.properties.stationID);
@@ -90,6 +128,49 @@
     })
     .catch(function (error) {
         console.log(error);
+    });
+</script>
+<script>
+    function filter() {
+        var checks = document.getElementById('filters').getElementsByTagName('input');
+        var filters = {!! json_encode($filters) !!};
+        filters.forEach(filter => {
+            var output = '<p>';
+            Array.from(checks).forEach((el) => {
+                if(el.checked) {
+                    if(el.name == 'temperature') output += String(filter.readings.temperature) + ' °C'; 
+                    if(el.name == 'humidity')  output += String(filter.readings.humidity) + ' %'; 
+                    if(el.name == 'pressure')  output += String(filter.readings.pressure) + ' hPa'; 
+                }
+                output += '</p>';
+            })
+            new L.Popup({
+                closeButton: false,
+                // closeOnClick: false,
+                autoClose: false,
+                className: 'another-popup'
+            }).setLatLng([filter.latitude - 0.0005, Number(filter.longitude) + Number(0.0014)]).setContent(
+                output
+            ).addTo(map);
+        });
+    }
+
+    function reset() {
+        var checks = document.querySelectorAll('#filters input');
+        var labels = document.querySelectorAll('#filters label');
+        
+        // Reset css
+        Array.from(labels).forEach((el) => {
+            el.classList.remove("active");
+        });
+
+        // Reset check value
+        Array.from(checks).forEach((el) => {
+            el.checked = false
+        });
+    }
+    map.on('click', function(e) {
+        reset();
     });
 </script>
  
