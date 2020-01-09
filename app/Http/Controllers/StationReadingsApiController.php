@@ -76,6 +76,7 @@ class StationReadingsApiController extends Controller
                 'temperature' => $readings->temperature,
                 'pressure' => $readings->pressure,
                 'humidity' => $readings->humidity,
+                'timestamp' => $readings->created_at,
         ]);
     }
 }

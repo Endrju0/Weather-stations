@@ -24,7 +24,7 @@ class MapController extends Controller
      */
     public function index()
     {
-        $stations = Station::get();//->stationReadings()->latest()->first();
+        $stations = Station::get();
         $filters = array();
         foreach($stations as $key => $value) {
             $filters[$key]['latitude'] = $value->latitude; 

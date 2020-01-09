@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Station;
+use Carbon\Carbon;
 use App\StationReadings;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -75,8 +76,15 @@ class StationController extends Controller
     public function show($id)
     {
         $station = Station::where('id', $id)->firstOrFail();
-        $stationReadings = StationReadings::where('station_id', $id)->get();
-        
+        $stationReadings = StationReadings::where('station_id', $id)
+                            ->where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())
+                            ->orderBy('created_at')
+                            ->get();
+        // $tmp = collect([]);
+        // $stationReadings->each(function ($collection, $alphabet) {
+        //     dump($alphabet, $collection);
+        // });
+        // dd($tmp);
         return view('station', compact('station', 'stationReadings'));
     }
 

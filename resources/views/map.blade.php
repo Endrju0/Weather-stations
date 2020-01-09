@@ -31,6 +31,7 @@
     .another-popup .leaflet-popup-tip {
         background: transparent;
         border: none;
+        box-shadow: none;
     }
 </style>
 @endsection
@@ -40,14 +41,14 @@
     <div class="card-body custom-popup" id="mapid"></div>
     <div class="card-footer">
         <div id="filters" class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-primary">
+            <label class="btn btn-outline-secondary">
               <input type="checkbox" name="temperature" autocomplete="off"> Temperature
             </label>
-            <label class="btn btn-primary">
-              <input type="checkbox" name="humidity" autocomplete="off"> Humidity
+            <label class="btn btn-outline-secondary">
+                <input type="checkbox" name="pressure" autocomplete="off"> Pressure
             </label>
-            <label class="btn btn-primary">
-              <input type="checkbox" name="pressure" autocomplete="off"> Pressure
+            <label class="btn btn-outline-secondary">
+                <input type="checkbox" name="humidity" autocomplete="off"> Humidity
             </label>
           </div>
         
@@ -135,21 +136,21 @@
         var checks = document.getElementById('filters').getElementsByTagName('input');
         var filters = {!! json_encode($filters) !!};
         filters.forEach(filter => {
-            var output = '<p>';
+            var output = '<span>';
             Array.from(checks).forEach((el) => {
                 if(el.checked) {
-                    if(el.name == 'temperature') output += String(filter.readings.temperature) + ' °C'; 
-                    if(el.name == 'humidity')  output += String(filter.readings.humidity) + ' %'; 
-                    if(el.name == 'pressure')  output += String(filter.readings.pressure) + ' hPa'; 
+                    if(el.name == 'temperature') output += String(filter.readings.temperature) + ' °C<br>'; 
+                    if(el.name == 'humidity')  output += String(filter.readings.humidity) + ' %<br>'; 
+                    if(el.name == 'pressure')  output += String(filter.readings.pressure) + ' hPa<br>'; 
                 }
-                output += '</p>';
+                output += '</span>';
             })
             new L.Popup({
                 closeButton: false,
                 // closeOnClick: false,
                 autoClose: false,
                 className: 'another-popup'
-            }).setLatLng([filter.latitude - 0.0005, Number(filter.longitude) + Number(0.0014)]).setContent(
+            }).setLatLng([filter.latitude, filter.longitude]).setContent(
                 output
             ).addTo(map);
         });

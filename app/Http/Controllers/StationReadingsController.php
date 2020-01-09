@@ -23,6 +23,7 @@ class StationReadingsController extends Controller
             $readings = StationReadings::query()
                             ->where('station_id', $id)
                             ->whereDate('created_at', $request->input('query'))
+                            ->orderBy('created_at')
                             ->get();
         }
         return view('station-date')->with([

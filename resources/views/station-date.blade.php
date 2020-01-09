@@ -88,7 +88,7 @@
     var backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
     // Chart js object
     function generateChart(data, label, pressurePrimaryColor, pressureSecondaryColor, bgColor) {
-        return pressureInfo = {
+        var config = {
             type: 'line',
 
             data: {
@@ -129,6 +129,8 @@
                 },
             }
         };
+
+        return config;
     }
 </script>
 

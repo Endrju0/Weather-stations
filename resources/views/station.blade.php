@@ -20,11 +20,22 @@
             <div class="card-header">{{ $station->name }}</div>
             <div class="card-body" id="mapid"></div>
             @if(Auth::id() == $station->user_id)
-                <div class="card-footer">
-                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary">Edit</a>
-                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary">Export to PDF</a>
-                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary">Select day</a>
-                    <div class="float-right">
+                <div class="card-footer d-flex flex-row w-100">
+                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary mr-1">Edit</a>
+                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary mr-1">Export to PDF</a>
+                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary mr-1">Select day</a>
+                    {{-- <div class="dropdown show">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter
+                        </a>
+                        
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">Month</a>
+                            <a class="dropdown-item" href="#">Week</a>
+                            <a class="dropdown-item" href="#">Day</a>
+                        </div>
+                    </div> --}}
+                    <div class="ml-auto">
                         <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
                             {{ csrf_field() }}{{ method_field('delete') }}
                             <input type="submit" value="Restart" class="btn btn-danger">
@@ -75,27 +86,29 @@
 
     var point = L.marker([{{ $station->latitude }}, {{ $station->longitude }}]).addTo(map);
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script>
     // Readings
     var readings = {!! json_encode($stationReadings) !!};
+    var stationID = {{ $station->id }};
     var timestamp = new Array();  
     var temperature = new Array();  
     var humidity = new Array();  
     var pressure = new Array();
+
     for(var reading in readings) {
         timestamp.push(readings[reading]['created_at']);
         temperature.push(readings[reading]['temperature']);
         humidity.push(readings[reading]['humidity']);
         pressure.push(readings[reading]['pressure']);
     }
-
     var backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
+
     // Chart js object
     function generateChart(data, label, pressurePrimaryColor, pressureSecondaryColor, bgColor) {
-        return pressureInfo = {
+        var config = {
             type: 'line',
 
             data: {
@@ -136,24 +149,28 @@
                 },
             }
         };
+
+        return config;
     }
 </script>
 
 <script>
     //temperatureChart    
     var ctxTemperature = document.getElementById('temperatureChart').getContext('2d');
-    var chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );
+    var configTemperature = generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor);
+    var chartTemperature = new Chart( ctxTemperature,  configTemperature );
 
     //humidityChart    
     var ctxHumidity = document.getElementById('humidityChart').getContext('2d');
-    var chartHumidity = new Chart( ctxHumidity, generateChart(humidity, '%', 'rgba(2, 204, 255, 0.315)', 'rgb(2, 204, 255)', backgroundColor) );
+    var configHumidity = generateChart(humidity, '%', 'rgba(2, 204, 255, 0.315)', 'rgb(2, 204, 255)', backgroundColor);
+    var chartHumidity = new Chart( ctxHumidity, configHumidity );
 
     //pressureChart    
     var ctxPressure = document.getElementById('pressureChart').getContext('2d');
     var pressureSecondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-secondary-color');
     var pressurePrimaryColor = getComputedStyle(document.documentElement).getPropertyValue('--pressure-primary-color');
-    
-    var chartPressure = new Chart( ctxPressure, generateChart(pressure, 'hPa', pressureSecondaryColor, pressurePrimaryColor, backgroundColor) );
+    var configPressure = generateChart(pressure, 'hPa', pressureSecondaryColor, pressurePrimaryColor, backgroundColor);
+    var chartPressure = new Chart( ctxPressure, configPressure );
 
     // Swapping colors of chart (if dark_theme is called)
     function chartColorSwap() {
@@ -169,6 +186,46 @@
         chartHumidity = new Chart( ctxHumidity, generateChart(humidity, '%', 'rgba(2, 204, 255, 0.315)', 'rgb(2, 204, 255)', backgroundColor) );
         chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );
     }
+    
+    // Update charts with latest data
+    function chartUpdate() {
+        var url_api = '{{ route('readings.show', ":id") }}';
+        url_api = url_api.replace(':id',stationID);
+
+        axios.get(url_api)
+        .then(function (response) {
+            if(response.data.timestamp != timestamp[timestamp.length-1]) {
+                // Temperature chart update
+                configTemperature.data.labels.shift();
+                configTemperature.data.labels.push(response.data.timestamp);
+
+                configTemperature.data.datasets[0].data.shift();
+                configTemperature.data.datasets[0].data.push(response.data.temperature);
+                chartTemperature.update();
+
+                // Pressure chart update
+                configHumidity.data.labels.shift();
+                configHumidity.data.labels.push(response.data.timestamp);
+
+                configHumidity.data.datasets[0].data.shift();
+                configHumidity.data.datasets[0].data.push(response.data.humidity);
+                chartHumidity.update();
+
+                // Humidity chart update
+                configPressure.data.labels.shift();
+                configPressure.data.labels.push(response.data.timestamp);
+
+                configPressure.data.datasets[0].data.shift();
+                configPressure.data.datasets[0].data.push(response.data.pressure);
+                chartPressure.update();
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    };
+    setInterval(chartUpdate, 30000); // 30s
 </script>
  
 @endpush
