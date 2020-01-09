@@ -196,26 +196,32 @@
         .then(function (response) {
             if(response.data.timestamp != timestamp[timestamp.length-1]) {
                 // Temperature chart update
-                configTemperature.data.labels.shift();
+                if(timestamp.length > 5) {
+                    configTemperature.data.labels.shift();
+                    configTemperature.data.datasets[0].data.shift();
+                }
+                
                 configTemperature.data.labels.push(response.data.timestamp);
-
-                configTemperature.data.datasets[0].data.shift();
                 configTemperature.data.datasets[0].data.push(response.data.temperature);
                 chartTemperature.update();
 
                 // Pressure chart update
-                configHumidity.data.labels.shift();
-                configHumidity.data.labels.push(response.data.timestamp);
+                if(timestamp.length > 5) {
+                    configHumidity.data.labels.shift();
+                    configHumidity.data.datasets[0].data.shift();
+                }
 
-                configHumidity.data.datasets[0].data.shift();
+                configHumidity.data.labels.push(response.data.timestamp);
                 configHumidity.data.datasets[0].data.push(response.data.humidity);
                 chartHumidity.update();
 
                 // Humidity chart update
-                configPressure.data.labels.shift();
-                configPressure.data.labels.push(response.data.timestamp);
+                if(timestamp.length > 5) {
+                    configPressure.data.labels.shift();
+                    configPressure.data.datasets[0].data.shift();
+                }
 
-                configPressure.data.datasets[0].data.shift();
+                configPressure.data.labels.push(response.data.timestamp);
                 configPressure.data.datasets[0].data.push(response.data.pressure);
                 chartPressure.update();
             }
@@ -225,7 +231,7 @@
         });
 
     };
-    setInterval(chartUpdate, 30000); // 30s
+    setInterval(chartUpdate, 60000); // 60s
 </script>
  
 @endpush
