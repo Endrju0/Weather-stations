@@ -164,7 +164,7 @@
             }
         };
 
-        return config;
+        return JSON.parse(JSON.stringify(config));
     }
 </script>
 

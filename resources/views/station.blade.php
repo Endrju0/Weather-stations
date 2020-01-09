@@ -150,7 +150,7 @@
             }
         };
 
-        return config;
+        return JSON.parse(JSON.stringify(config));
     }
 </script>
 
@@ -195,35 +195,33 @@
         axios.get(url_api)
         .then(function (response) {
             if(response.data.timestamp != timestamp[timestamp.length-1]) {
-                // Temperature chart update
-                if(timestamp.length > 5) {
+                // Shift datasets if there is enough values
+                if(timestamp.length > 4) {
                     configTemperature.data.labels.shift();
                     configTemperature.data.datasets[0].data.shift();
+                    configHumidity.data.labels.shift();
+                    configHumidity.data.datasets[0].data.shift();
+                    configPressure.data.labels.shift();
+                    configPressure.data.datasets[0].data.shift();
                 }
                 
+                // Temperature chart update
                 configTemperature.data.labels.push(response.data.timestamp);
                 configTemperature.data.datasets[0].data.push(response.data.temperature);
                 chartTemperature.update();
 
                 // Pressure chart update
-                if(timestamp.length > 5) {
-                    configHumidity.data.labels.shift();
-                    configHumidity.data.datasets[0].data.shift();
-                }
-
                 configHumidity.data.labels.push(response.data.timestamp);
                 configHumidity.data.datasets[0].data.push(response.data.humidity);
                 chartHumidity.update();
 
                 // Humidity chart update
-                if(timestamp.length > 5) {
-                    configPressure.data.labels.shift();
-                    configPressure.data.datasets[0].data.shift();
-                }
-
                 configPressure.data.labels.push(response.data.timestamp);
                 configPressure.data.datasets[0].data.push(response.data.pressure);
                 chartPressure.update();
+
+                // Update timestamp to prevent infinite loop
+                timestamp.push(response.data.timestamp);
             }
         })
         .catch(function (error) {
@@ -231,7 +229,7 @@
         });
 
     };
-    setInterval(chartUpdate, 60000); // 60s
+    setInterval(chartUpdate, 3000); // 60s
 </script>
  
 @endpush
