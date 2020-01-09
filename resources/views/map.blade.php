@@ -10,7 +10,7 @@
 <style>
     #mapid { min-height: 500px; }
     .another-popup .leaflet-popup-content-wrapper {
-        background: transparent;
+        background: rgba(0, 0, 0, 0.4);
         padding: 0;
         margin: 0;
         color: #ff0000;
@@ -98,7 +98,6 @@
             // console.log(e.layer.feature.properties.stationID);
             var url_api = '{{ route('readings.show', ":id") }}';
             url_api = url_api.replace(':id',e.layer.feature.properties.stationID);
-            console.log(url_api);
             
             var url_station = '{{ route('station.show', ":id") }}';
             url_station = url_station.replace(':id',e.layer.feature.properties.stationID);
@@ -132,9 +131,18 @@
     });
 </script>
 <script>
+    var filtersPane;
     function filter() {
+        // Refresh popups
+        if(L.DomUtil.get(filtersPane)) L.DomUtil.remove(filtersPane);
+
+        filtersPane = map.createPane("filtersPane");
+        filtersPane.style.zIndex = 500;
+
+        // Set new popups based on selected filters
         var checks = document.getElementById('filters').getElementsByTagName('input');
         var filters = {!! json_encode($filters) !!};
+
         filters.forEach(filter => {
             var output = '<span>';
             Array.from(checks).forEach((el) => {
@@ -147,32 +155,17 @@
             })
             new L.Popup({
                 closeButton: false,
-                // closeOnClick: false,
+                closeOnClick: false,
+                autoPan: false,
+                pane: "filtersPane",
                 autoClose: false,
+                offset: [65, 30],
                 className: 'another-popup'
             }).setLatLng([filter.latitude, filter.longitude]).setContent(
                 output
             ).addTo(map);
         });
     }
-
-    function reset() {
-        var checks = document.querySelectorAll('#filters input');
-        var labels = document.querySelectorAll('#filters label');
-        
-        // Reset css
-        Array.from(labels).forEach((el) => {
-            el.classList.remove("active");
-        });
-
-        // Reset check value
-        Array.from(checks).forEach((el) => {
-            el.checked = false
-        });
-    }
-    map.on('click', function(e) {
-        reset();
-    });
 </script>
  
 @endpush
