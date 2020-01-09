@@ -80,11 +80,7 @@ class StationController extends Controller
                             ->where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())
                             ->orderBy('created_at')
                             ->get();
-        // $tmp = collect([]);
-        // $stationReadings->each(function ($collection, $alphabet) {
-        //     dump($alphabet, $collection);
-        // });
-        // dd($tmp);
+
         return view('station', compact('station', 'stationReadings'));
     }
 
