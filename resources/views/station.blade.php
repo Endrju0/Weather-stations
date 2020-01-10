@@ -110,12 +110,13 @@
     function generateChart(data, label, pressurePrimaryColor, pressureSecondaryColor, bgColor) {
         var config = {
             type: 'line',
-
             data: {
                 labels: timestamp,
                 datasets: [{
                     backgroundColor: pressurePrimaryColor,
                     borderColor: pressureSecondaryColor,
+                    pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+                    pointBorderColor: 'rgba(0, 0, 0, 0)',
                     data: data
                 }]
             },
@@ -150,7 +151,7 @@
             }
         };
 
-        return JSON.parse(JSON.stringify(config));
+        return jQuery.extend(true, {}, config);
     }
 </script>
 
