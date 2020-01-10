@@ -77,9 +77,12 @@ class StationController extends Controller
     {
         $station = Station::where('id', $id)->firstOrFail();
         $stationReadings = StationReadings::where('station_id', $id)
-                            ->where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())
-                            ->orderBy('created_at')
-                            ->get();
+                            // ->where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())
+                            ->orderBy('created_at', 'desc')
+                            ->take(180)
+                            ->get()
+                            ->reverse()
+                            ->values();
 
         return view('station', compact('station', 'stationReadings'));
     }

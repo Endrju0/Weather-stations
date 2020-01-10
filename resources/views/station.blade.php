@@ -107,14 +107,14 @@
     var backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
 
     // Chart js object
-    function generateChart(data, label, pressurePrimaryColor, pressureSecondaryColor, bgColor) {
+    function generateChart(data, label, primaryColor, secondaryColor, bgColor) {
         var config = {
             type: 'line',
             data: {
                 labels: timestamp,
                 datasets: [{
-                    backgroundColor: pressurePrimaryColor,
-                    borderColor: pressureSecondaryColor,
+                    backgroundColor: primaryColor,
+                    borderColor: secondaryColor,
                     pointBackgroundColor: 'rgba(0, 0, 0, 0)',
                     pointBorderColor: 'rgba(0, 0, 0, 0)',
                     data: data
@@ -128,8 +128,14 @@
                 },
                 tooltips: {
                     callbacks: {
-                        label: function(tooltipItems, data) { 
-                            return tooltipItems.yLabel + ' ' + label;
+                        label: function(tooltipItem, data) { 
+                            return tooltipItem.yLabel + ' ' + label;
+                        },
+                        labelColor: function(tooltipItem, data) {
+                            return {
+                                borderColor: secondaryColor,
+                                backgroundColor: primaryColor
+                            };
                         }
                     },
                 },
