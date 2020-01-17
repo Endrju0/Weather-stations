@@ -31,3 +31,6 @@ Route::get('/station/{id}/date', 'StationReadingsController@show')->name('statio
 Route::delete('/station/{id}/restart', 'StationReadingsController@destroy')->name('station-readings.destroy');
 Route::get('/station/{id}/key', 'KeyController@update')->name('key.update');
 Route::get('/station/{id}/pdf', 'StationController@pdf')->name('station.pdf');
+
+Route::get('/settings', 'UserController@edit')->name('settings.edit');
+Route::post('/settings', 'UserController@update')->name('settings.update');

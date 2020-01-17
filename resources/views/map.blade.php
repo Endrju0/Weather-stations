@@ -52,7 +52,7 @@
             </label>
           </div>
         
-        <a href="#" class="btn btn-secondary" onclick="filter();">Show temperatures</a>
+        <a href="#" class="btn btn-secondary" onclick="filter();">Show</a>
 </div>
 @endsection
 
@@ -61,8 +61,18 @@
     integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
     crossorigin=""></script>
 
+@if (!empty($center))
 <script>
-    var map = L.map('mapid').setView([{{ config('leaflet.center_latitude') }}, {{ config('leaflet.center_longitude') }}], {{ config('leaflet.zoom') }});
+    var mapCenter = @json($center);
+</script>
+@else
+<script>
+    var mapCenter = [{{ config('leaflet.center_latitude') }}, {{ config('leaflet.center_longitude') }}];
+</script>
+@endif
+
+<script>
+    var map = L.map('mapid').setView(mapCenter, {{ config('leaflet.zoom') }});
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     }).addTo(map);
@@ -132,6 +142,7 @@
 </script>
 <script>
     var filtersPane;
+
     function filter() {
         // Refresh popups
         if(L.DomUtil.get(filtersPane)) L.DomUtil.remove(filtersPane);

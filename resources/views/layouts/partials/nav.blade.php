@@ -40,6 +40,7 @@
                             </div>
                             <a class="dropdown-item" href="{{ route('station-list.index') }}">Stations list</a>
                             <a class="dropdown-item" href="{{ route('station.create') }}">Add station</a>
+                            <a class="dropdown-item" href="{{ route('settings.edit') }}">Settings</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">

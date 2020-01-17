@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class StationApiController extends Controller
 {
     /**
-     * Get stations on leaflet js
+     * Get stations latlng
      *
      * @param  \Illuminate\Http\Request  $request
      * @return Illuminate\Http\JsonResponse
@@ -17,7 +17,6 @@ class StationApiController extends Controller
     public function index(Request $request)
     {
         $stations = Station::all();
-        // $stations = Station::query()->where('user_id', $request->user_id)->get();
         $geoJSON = $stations->map(function ($station) {
             return [
                 'type'       => 'Feature',

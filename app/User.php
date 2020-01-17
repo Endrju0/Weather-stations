@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'center_latlng',
     ];
 
     /**
@@ -39,5 +39,13 @@ class User extends Authenticatable
     
     public function stations() {
         return $this->hasMany(Station::Class);
+    }
+
+    public function setCenterLatlngAttribute($value) {
+        $this->attributes['center_latlng'] = json_encode($value);
+    }
+
+    public function getCenterLatlngAttribute($value) {
+        return json_decode($value, true);
     }
 }

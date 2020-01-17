@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Station;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MapController extends Controller
 {
@@ -18,13 +20,14 @@ class MapController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display map with station points
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $stations = Station::get();
+        $user = User::find(Auth::id());
         $filters = array();
         foreach($stations as $key => $value) {
             $filters[$key]['latitude'] = $value->latitude; 
@@ -34,6 +37,7 @@ class MapController extends Controller
         return view('map')->with([
             'stations' => $stations,
             'filters' => $filters,
+            'center' => $user->center_latlng,
         ]);
     }
 }
