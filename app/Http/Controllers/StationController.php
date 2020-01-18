@@ -73,18 +73,31 @@ class StationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        switch($request->filter) {
+            case 'week': 
+                $date = Carbon::now()->subWeek()->toDateTimeString();
+                $filter = 'Last week';
+                break;
+            case 'month': 
+                $date = Carbon::now()->subMonth()->toDateTimeString();
+                $filter = 'Last month';
+                break;
+            default: 
+                $date = Carbon::now()->subDay()->toDateTimeString();
+                $filter = 'Last day';
+        }
+        
         $station = Station::where('id', $id)->firstOrFail();
         $stationReadings = StationReadings::where('station_id', $id)
-                            // ->where('created_at', '>=', Carbon::now()->subMonth()->toDateTimeString())
+                            ->where('created_at', '>=', $date)
                             ->orderBy('created_at', 'desc')
-                            ->take(180)
                             ->get()
                             ->reverse()
                             ->values();
 
-        return view('station', compact('station', 'stationReadings'));
+        return view('station', compact('station', 'stationReadings', 'filter'));
     }
 
     /**

@@ -23,18 +23,15 @@
                 <div class="card-footer d-flex flex-row w-100">
                     <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary mr-1">Edit</a>
                     <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary mr-1">Export to PDF</a>
-                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary mr-1">Select day</a>
-                    {{-- <div class="dropdown show">
-                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filter
-                        </a>
-                        
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Month</a>
-                            <a class="dropdown-item" href="#">Week</a>
-                            <a class="dropdown-item" href="#">Day</a>
-                        </div>
-                    </div> --}}
+                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary mr-1">History</a>
+                        <form method="GET" action="">
+                            <select class="form-control border-primary" name="filter" onchange="this.form.submit();">
+                                <option disabled selected style="display:none">{{ $filter }}</option>
+                                <option value="day">Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                            </select>
+                        </form>
                     <div class="ml-auto">
                         <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
                             {{ csrf_field() }}{{ method_field('delete') }}
@@ -236,7 +233,7 @@
         });
 
     };
-    setInterval(chartUpdate, 3000); // 60s
+    setInterval(chartUpdate, 60000); // 60s
 </script>
  
 @endpush

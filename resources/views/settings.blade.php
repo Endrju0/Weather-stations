@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Weather Stations - Edit ' . $user->name)
+@section('title', 'Weather Stations - Settings ' . $user->name)
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
