@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 
 class StationReadings extends Model
@@ -12,5 +14,12 @@ class StationReadings extends Model
 
     public function station() {
         return $this->belongsTo(Station::class);
+    }
+
+    public function getCreatedAtAttribute($value) {
+        $timezone = $this->station->user->timezone ? $this->station->user->timezone : Config::get('app.timezone');
+        return Carbon::createFromTimestamp(strtotime($value))
+            ->timezone($timezone)
+            ->toDateTimeString();
     }
 }

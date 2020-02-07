@@ -19,7 +19,10 @@ class CreateStationTable extends Migration
             $table->string('latitude', 15)->nullable();
             $table->string('longitude', 15)->nullable();
             $table->string('key', 20);
+
             $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
 
             $table->index('user_id');

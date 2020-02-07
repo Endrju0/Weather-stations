@@ -6,6 +6,7 @@ use App\Station;
 use Carbon\Carbon;
 use App\StationReadings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class StationReadingsController extends Controller
@@ -26,7 +27,7 @@ class StationReadingsController extends Controller
         $station = Station::find($id);
         
         // Select unique dates, when station got readings
-        $dates = StationReadings::where('station_id', $id)->pluck('created_at')->toArray();
+        $dates = DB::table('station_readings')->where('station_id', $id)->pluck('created_at')->toArray();
         foreach($dates as $key => $date) {
             $dates[$key] = Carbon::parse($date)->format('Y-m-d');
         }

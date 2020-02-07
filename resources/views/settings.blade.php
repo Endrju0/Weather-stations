@@ -21,21 +21,29 @@
                 {{ csrf_field() }}
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="name" class="control-label"> Name </label>
+                        <label for="name" class="control-label">Name</label>
                         <input id="name" type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="timezone" class="control-label">Timezone</label>
+                        <select id="timezone" name="timezone" class="form-control">
+                            @foreach ($timezones as $timezone)
+                                <option value="{{ $timezone }}" @if($user->timezone == null) {{ $timezone == config('app.timezone')  ? 'selected' : '' }} @else {{ $timezone == $user->timezone ? 'selected' : '' }} @endif>{{ $timezone }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="row pt-2">
                         <div class="col-12">Map center</div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude" class="control-label">Latitude</label>
-                                <input id="latitude" type="text" class="form-control" name="latitude" value="{{ $user->center_latlng[0] }}">
+                                <input id="latitude" type="text" class="form-control" name="latitude" value="{{ $user->center_latlng[0] }}" @if($user->center_latlng[0] == null) placeholder="{{ config('leaflet.center_latitude') }}" @endif>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="longitude" class="control-label">Longitude</label>
-                                <input id="longitude" type="text" class="form-control" name="longitude" value="{{ $user->center_latlng[1] }}">
+                                <input id="longitude" type="text" class="form-control" name="longitude" value="{{ $user->center_latlng[1] }}" @if($user->center_latlng[1] == null) placeholder="{{ config('leaflet.center_longitude') }}" @endif>
                             </div>
                         </div>
                         <input name="url" type="hidden" value="{{ url()->previous() }}">
