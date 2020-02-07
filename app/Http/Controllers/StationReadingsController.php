@@ -24,9 +24,9 @@ class StationReadingsController extends Controller
     public function show($id, Request $request)
     {
         $station = Station::find($id);
+        
+        // Select unique dates, when station got readings
         $dates = StationReadings::where('station_id', $id)->pluck('created_at')->toArray();
-
-        // Change datetime to date
         foreach($dates as $key => $date) {
             $dates[$key] = Carbon::parse($date)->format('Y-m-d');
         }
@@ -34,18 +34,33 @@ class StationReadingsController extends Controller
         
         $readings = null;
         if($request->input('query') != null) {
-            $readings = StationReadings::query()
-                            ->where('station_id', $id)
-                            ->whereDate('created_at', $request->input('query'))
-                            ->orderBy('created_at')
-                            ->get();
+            $dt1 = Carbon::create($request->input('query'));
+            $dt2 = Carbon::create($request->input('query_range'));
+            $query = StationReadings::query()->where('station_id', $id);
+
+            if($request->input('query_range') != null ) {
+                if($dt1->greaterThan($dt2)) {
+                    $query->whereDate('created_at', '>=', $request->input('query_range'));
+                    $query->whereDate('created_at', '<=', $request->input('query'));
+                } else {
+                    $query->whereDate('created_at', '>=', $request->input('query'));
+                    $query->whereDate('created_at', '<=', $request->input('query_range'));
+                }
+            } else {
+                $query->whereDate('created_at', $request->input('query'));
+            }
+            $query->orderBy('created_at');
+            $readings = $query->get();
         }
+
 
         return view('station-date')->with([
             'station' => $station,
             'dates' => $dates,
             'readings' => $readings,
             'query' => $request->input('query'),
+            'query_range' => $request->input('query_range'),
+            'check_range' => $request->input('check_range') ,
         ]);
     }
 

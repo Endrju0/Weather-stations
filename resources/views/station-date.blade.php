@@ -28,11 +28,18 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="query-group" class="control-label"> Select date </label>
-                    <form id="query-group" class="input-group" method="GET" action="">
-                        <input class="form-control" name="query" type="text" value="{{ $query }}" placeholder="YYYY-MM-DD" autocomplete="off"/>
-                        <span class="input-group-append">
-                            <input type="submit" value="Show" class="btn btn-outline-secondary">
-                        </span>
+                    <form id="query-group"  method="GET" action="">
+                        <div class="input-group">
+                            <input class="form-control" name="query" type="text" value="{{ $query }}" placeholder="YYYY-MM-DD" autocomplete="off"/>
+                            <input class="form-control @if($check_range == null) d-none @endif" name="query_range" type="text" value="{{ $query_range }}" placeholder="YYYY-MM-DD" autocomplete="off"/>
+                            <span class="input-group-append">
+                                <input type="submit" value="Show" class="btn btn-outline-secondary">
+                            </span>
+                        </div>
+                        <div class="col-12 mt-1 custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="check_range" name="check_range" @if($check_range != null) checked @endif>
+                            <label class="custom-control-label" for="check_range">Date range</label>
+                        </div>
                     </form>
                 </div>
                 <div id="date-container" class="form-group">
@@ -86,6 +93,7 @@
     // Datepicker
     $(document).ready(function() {
         var date_input = $('input[name="query"]');
+        var date_input2 = $('input[name="query_range"]');
         var options = {
             format: 'yyyy-mm-dd',
             beforeShowDay: function(date) {
@@ -101,6 +109,16 @@
             orientation: "bottom",
         };
         date_input.datepicker(options); 
+        date_input2.datepicker(options); 
+    });
+
+    document.getElementById('check_range').addEventListener('change', function() {
+        if(this.checked) {
+            document.getElementsByName('query_range')[0].classList.remove('d-none');
+        } else {
+            document.getElementsByName('query_range')[0].classList.add('d-none');
+            document.getElementsByName('query_range')[0].value = null;
+        }
     });
 </script>
 
@@ -173,9 +191,7 @@
 
         return jQuery.extend(true, {}, config);
     }
-</script>
 
-<script>
     //temperatureChart    
     var ctxTemperature = document.getElementById('temperatureChart').getContext('2d');
     var chartTemperature = new Chart( ctxTemperature, generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor) );

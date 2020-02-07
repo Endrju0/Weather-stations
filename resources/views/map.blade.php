@@ -10,7 +10,7 @@
 <style>
     #mapid { min-height: 500px; }
     .another-popup .leaflet-popup-content-wrapper {
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0, 0, 0, 0.6);
         padding: 0;
         margin: 0;
         color: #ff0000;
@@ -32,6 +32,9 @@
         background: transparent;
         border: none;
         box-shadow: none;
+    }
+    .popup-text-small {
+        font-size: 0.7em;
     }
 </style>
 @endsection
@@ -114,11 +117,13 @@
 
             axios.get(url_api)
             .then(function (response) {
+                console.log(response);
                 popup.setContent(
                     '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
-                    '<p> Temperature: ' + response.data.temperature + '</p>' +
-                    '<p> Pressure: ' + response.data.pressure + '</p>' +
-                    '<p> Humidity: ' + response.data.humidity + '</p>'
+                    '<p> Temperature: ' + response.data.temperature + ' °C</p>' +
+                    '<p> Pressure: ' + response.data.pressure + ' %</p>' +
+                    '<p> Humidity: ' + response.data.humidity + ' hPa</p>' +
+                    '<p class="popup-text-small">' + response.data.timestamp + '</p>'
                 );
                 popup.update();
             })

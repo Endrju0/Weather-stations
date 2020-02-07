@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{ $station->name}}</title>
     <style>
-      @import url("https://fonts.googleapis.com/css?family=Nunito");
-
       body {
         text-align: center;
         font-family: "Nunito", Arial;
