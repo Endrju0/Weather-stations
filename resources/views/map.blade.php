@@ -56,6 +56,7 @@
           </div>
         
         <a href="#" class="btn btn-secondary" onclick="filter();">Show</a>
+        <a href="#" id="center-btn" class="btn btn-secondary">Center map</a>
 </div>
 @endsection
 
@@ -75,19 +76,19 @@
 @endif
 
 <script>
+    // Map
     var map = L.map('mapid').setView(mapCenter, {{ config('leaflet.zoom') }});
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     }).addTo(map);
-</script>
 
-<script>
+    // Red marker
     var redMarker = L.icon ({
         iconUrl: "{{ asset('marker-red.png') }}",
         iconAnchor: [12, 40],
         popupAnchor: [0, -32],
     });
-    //get stations latlng, name
+    // Get stations latlng, name (popup info)
     axios.get('{{ route('stations.index') }}', {
         params: {
             user_id: {{ Auth::id() }}
@@ -144,10 +145,9 @@
     .catch(function (error) {
         console.log(error);
     });
-</script>
-<script>
-    var filtersPane;
 
+    // Filters
+    var filtersPane;
     function filter() {
         // Refresh popups
         if(L.DomUtil.get(filtersPane)) L.DomUtil.remove(filtersPane);
@@ -183,5 +183,6 @@
         });
     }
 </script>
+<script src="{{ asset('js/geolocation-map-center.js') }}"></script>
  
 @endpush

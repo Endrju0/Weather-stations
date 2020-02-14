@@ -28,9 +28,14 @@ Route::get('/station/{id}/edit', 'StationController@edit')->name('station.edit')
 Route::patch('/station/{id}', 'StationController@update')->name('station.update');
 Route::delete('/station/{id}', 'StationController@destroy')->name('station.destroy');
 Route::get('/station/{id}/date', 'StationReadingsController@show')->name('station.date.show');
-Route::delete('/station/{id}/restart', 'StationReadingsController@destroy')->name('station-readings.destroy');
 Route::get('/station/{id}/key', 'KeyController@update')->name('key.update');
+Route::delete('/station/{id}/restart', 'StationReadingsController@destroy')->name('station-readings.destroy');
 Route::get('/station/{id}/pdf', 'StationController@pdf')->name('station.pdf');
 
 Route::get('/settings', 'UserController@edit')->name('settings.edit');
 Route::post('/settings', 'UserController@update')->name('settings.update');
+
+Route::middleware('ajax')->group(function() {
+    Route::get('/stations', 'MapController@stationsLatlng')->name('stations.index');
+    Route::get('/show/{stationID}', 'MapController@showLatestReadings')->name('readings.show');
+});

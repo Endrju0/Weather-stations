@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/dark_theme.css": "/css/dark_theme.css"
+    "/css/dark_theme.css": "/css/dark_theme.css",
+    "/js/generate-chart.js": "/js/generate-chart.js",
+    "/js/geolocation-map-center.js": "/js/geolocation-map-center.js"
 }

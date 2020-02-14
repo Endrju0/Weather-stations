@@ -46,6 +46,7 @@
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="Create" class="btn btn-primary">
+                    <a href="#" id="center-btn" class="btn btn-secondary">Center map</a>
                     <a href="{{ route('station-list.index')}}" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
@@ -71,7 +72,7 @@
     function updateMarker(lat, lng) {
         marker
         .setLatLng([lat, lng])
-        .bindPopup("Your location :  " + marker.getLatLng().lat.toString() + ' : ' + marker.getLatLng().lng.toString())
+        .bindPopup("Station location :  " + marker.getLatLng().lat.toString() + ' : ' + marker.getLatLng().lng.toString())
         .openPopup();
         return false;
     };
@@ -90,4 +91,5 @@
     $('#latitude').on('input', updateMarkerByInputs);
     $('#longitude').on('input', updateMarkerByInputs);
 </script>
+<script src="{{ asset('js/geolocation-map-center.js') }}"></script>
 @endpush

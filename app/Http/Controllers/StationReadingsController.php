@@ -25,6 +25,7 @@ class StationReadingsController extends Controller
     public function show($id, Request $request)
     {
         $station = Station::find($id);
+        if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
         
         // Select unique dates, when station got readings
         $dates = DB::table('station_readings')->where('station_id', $id)->pluck('created_at')->toArray();

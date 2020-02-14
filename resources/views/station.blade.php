@@ -85,6 +85,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="{{ asset('js/generate-chart.js') }}"></script>
 
 <script>
     // Readings
@@ -103,62 +104,6 @@
     }
     var backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-color');
 
-    // Chart js object
-    function generateChart(data, label, primaryColor, secondaryColor, bgColor) {
-        var config = {
-            type: 'line',
-            data: {
-                labels: timestamp,
-                datasets: [{
-                    backgroundColor: primaryColor,
-                    borderColor: secondaryColor,
-                    pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-                    pointBorderColor: 'rgba(0, 0, 0, 0)',
-                    data: data
-                }]
-            },
-
-            // Configuration options go here
-            options: {
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, data) { 
-                            return tooltipItem.yLabel + ' ' + label;
-                        },
-                        labelColor: function(tooltipItem, data) {
-                            return {
-                                borderColor: secondaryColor,
-                                backgroundColor: primaryColor
-                            };
-                        }
-                    },
-                },
-                scales: {
-                    xAxes: [{
-                        gridLines: { color: bgColor },
-                        ticks: { fontColor: bgColor }
-                        }],
-                    yAxes: [{
-                        ticks: {
-                            userCallback: function(item) {
-                                return item + ' ' + label;
-                            },
-                            fontColor: bgColor
-                        },
-                        gridLines: { color: bgColor }
-                    }]
-                },
-            }
-        };
-
-        return jQuery.extend(true, {}, config);
-    }
-</script>
-
-<script>
     //temperatureChart    
     var ctxTemperature = document.getElementById('temperatureChart').getContext('2d');
     var configTemperature = generateChart(temperature, '°C', 'rgba(255, 99, 133, 0.315)', 'rgb(255, 99, 132)', backgroundColor);
@@ -232,8 +177,8 @@
             console.log(error);
         });
 
-    };
-    setInterval(chartUpdate, 60000); // 60s
+    }; 
+    setInterval(chartUpdate, 1800000);
 </script>
  
 @endpush

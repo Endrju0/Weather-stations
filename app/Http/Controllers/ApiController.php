@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\StationReadings as StationReadingsResource;
 
 
-class StationReadingsApiController extends Controller
+class ApiController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -59,24 +59,5 @@ class StationReadingsApiController extends Controller
             }
         }
         return response()->json(['Invalid token'], 400);
-    }
-
-    /**
-     * Get latest specific station readings
-     *
-     * @param  int  $stationID
-     * @return \Illuminate\Http\Response
-     */
-    public function show($stationID)
-    {
-        $readings = StationReadings::where('station_id', '=', $stationID)->latest()->firstOrFail();
-
-        return response()->json([
-                // 'name' => $readings->station->name,
-                'temperature' => $readings->temperature,
-                'pressure' => $readings->pressure,
-                'humidity' => $readings->humidity,
-                'timestamp' => $readings->created_at,
-        ]);
     }
 }

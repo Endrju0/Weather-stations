@@ -17,11 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Send readings to database
-Route::middleware('throttle:60,1')->group(function () {
-    Route::post('readings', 'StationReadingsApiController@store');
-});
-
-// Map json
-Route::get('stations', 'StationApiController@index')->name('stations.index');
-Route::get('show/{stationID}', 'StationReadingsApiController@show')->name('readings.show');
+// Readings API
+Route::post('readings', 'ApiController@store');

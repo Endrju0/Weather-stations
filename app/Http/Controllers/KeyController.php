@@ -3,11 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Station;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KeyController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Generate new key
      *
@@ -17,6 +28,7 @@ class KeyController extends Controller
     public function update($id)
     {
         $station = Station::find($id);
+        if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
         $station->key = Str::random(20);
         $station->save();
 

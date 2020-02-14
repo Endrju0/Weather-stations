@@ -50,6 +50,7 @@
                 <div class="card-footer">
                     <input type="submit" value="Update" class="btn btn-primary">
                     <a href="{{ route('station.show', $station->id) }}" class="btn btn-secondary">Cancel</a>
+                    <a href="#" id="center-btn" class="btn btn-secondary">Center map</a>
             </form>
                     <div class="float-right">
                         <form action="{{ route('station.destroy', $station->id) }}" method="POST">
@@ -99,4 +100,5 @@ console.log(marker);
     $('#latitude').on('input', updateMarkerByInputs);
     $('#longitude').on('input', updateMarkerByInputs);
 </script>
+<script src="{{ asset('js/geolocation-map-center.js') }}"></script>
 @endpush

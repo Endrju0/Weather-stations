@@ -166,6 +166,7 @@ class StationController extends Controller
     public function pdf($id)
     {        
         $station = Station::find($id);
+        if(Auth::id() != $station->user_id) return back()->withErrors('You\'re not allowed to do this.');
         $readings = StationReadings::where('station_id', $id);
         if($readings->get()->isEmpty()) {
             return redirect()->back()->withErrors('There isn\'t any data to export!');
