@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class MapController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Display map with station points
      *
      * @return \Illuminate\Http\Response

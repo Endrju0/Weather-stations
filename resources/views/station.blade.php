@@ -20,22 +20,24 @@
             <div class="card-header">{{ $station->name }}</div>
             <div class="card-body" id="mapid"></div>
             @if(Auth::id() == $station->user_id)
-                <div class="card-footer d-flex flex-row w-100">
-                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary mr-1">Edit</a>
-                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary mr-1">Export to PDF</a>
-                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary mr-1">History</a>
+                <div class="card-footer form-inline">
+                    <a href="{{ route('station.edit', $station->id ) }}" class="btn btn-primary mr-1 mt-1">Edit</a>
+                    <a href="{{ route('station.pdf', $station->id) }}" class="btn btn-primary mr-1 mt-1">PDF</a>
+                    <a href="{{ route('station.date.show', $station->id) }}" class="btn btn-primary mr-1 mt-1">History</a>
+                    <div class="form-group">
                         <form method="GET" action="">
-                            <select class="form-control border-primary" name="filter" onchange="this.form.submit();">
+                            <select class="form-control border-primary mt-1" name="filter" onchange="this.form.submit();">
                                 <option disabled selected style="display:none">{{ $filter }}</option>
                                 <option value="day">Day</option>
                                 <option value="week">Week</option>
                                 <option value="month">Month</option>
                             </select>
                         </form>
-                    <div class="ml-auto">
+                    </div>
+                    <div  class="form-group">
                         <form action="{{ route('station-readings.destroy', $station->id) }}" method="POST">
                             {{ csrf_field() }}{{ method_field('delete') }}
-                            <input type="submit" value="Restart" class="btn btn-danger">
+                            <input type="submit" value="Restart" class="btn btn-danger ml-1 mt-1">
                         </form>
                     </div>
                 </div>

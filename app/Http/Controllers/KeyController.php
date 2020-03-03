@@ -10,16 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class KeyController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Generate new key
      *
      * @param  int  $id

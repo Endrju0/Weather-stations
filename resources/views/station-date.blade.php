@@ -107,7 +107,7 @@
             },
             todayHighlight: true,
             autoclose: true,
-            orientation: "bottom",
+            orientation: "top",
         };
         date_input.datepicker(options); 
         date_input2.datepicker(options); 

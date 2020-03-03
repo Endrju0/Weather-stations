@@ -8,7 +8,7 @@
     crossorigin=""/>
     
 <style>
-    #mapid { min-height: 500px; }
+    #mapid { height: 500px; }
     .another-popup .leaflet-popup-content-wrapper {
         background: rgba(0, 0, 0, 0.6);
         padding: 0;
@@ -35,6 +35,10 @@
     }
     .popup-text-small {
         font-size: 0.7em;
+    }
+
+    @media only screen and (max-height: 600px) {
+        #mapid { height: 70vh; }
     }
 </style>
 @endsection

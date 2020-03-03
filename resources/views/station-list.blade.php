@@ -26,6 +26,7 @@
                 <a href="{{ route('station.create') }}" class="btn btn-primary ml-auto mr-2">Create new station</a>
             </div>
         </div>
+        <div class="table-responsive">
             <table class="table table-sm text-center">
                 <thead class="thead-dark">
                     <tr>
@@ -50,7 +51,8 @@
                     @endforelse
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center col-12">{{ $stations->links() }}</div>
+        </div>
+        <div class="d-flex justify-content-center col-12">{{ $stations->links() }}</div>
     </div>
 @endsection
 
