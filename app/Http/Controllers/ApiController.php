@@ -25,7 +25,7 @@ class ApiController extends Controller
         // basic validation
         $validator = Validator::make($request->all(), [
             'temperature' => 'required|numeric|between:-100,100',
-            'pressure' => 'required|numeric|between:969,1020',
+            'pressure' => 'required|numeric|between:900,1100',
             'humidity' => 'required|numeric|between:0,100',
             'key' => 'required',
             'email' => 'required'
@@ -55,7 +55,6 @@ class ApiController extends Controller
             //if everything is ok insert data in db and respond
             if($readings->save()) {
                 return new StationReadingsResource($readings);
-                // return response()->json($readings);
             }
         }
         return response()->json(['Invalid token'], 400);

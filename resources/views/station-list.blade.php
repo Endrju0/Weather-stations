@@ -23,7 +23,7 @@
                     <input type="submit" value="Search" class="btn btn-outline-primary">
                     <a href="{{ route('station-list.index') }}" class="btn btn-link">Reset</a>
                 </form>
-                <a href="{{ route('station.create') }}" class="btn btn-primary ml-auto mr-2">Create new station</a>
+                <a href="{{ route('station.create') }}" class="btn btn-primary ml-auto mr-2">Add station</a>
             </div>
         </div>
         <div class="table-responsive">

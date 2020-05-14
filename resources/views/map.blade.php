@@ -125,9 +125,9 @@
                 console.log(response);
                 popup.setContent(
                     '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
-                    '<p> Temperature: ' + response.data.temperature + ' °C</p>' +
-                    '<p> Pressure: ' + response.data.pressure + ' %</p>' +
-                    '<p> Humidity: ' + response.data.humidity + ' hPa</p>' +
+                    '<p> Temperature: ' + Math.round(response.data.temperature * 100) / 100 + ' °C</p>' +
+                    '<p> Humidity: ' + Math.round(response.data.humidity * 100) / 100  + ' %</p>' +
+                    '<p> Pressure: ' + Math.round(response.data.pressure * 100) / 100  + ' hPa</p>' +
                     '<p class="popup-text-small">' + response.data.timestamp + '</p>'
                 );
                 popup.update();
@@ -136,9 +136,9 @@
                 console.log(error);
                 popup.setContent(
                     '<p><a href="' + url_station + '"><b>' + e.layer.feature.properties.name + '</b></a></p>' +
-                    '<p> Temperature: null</p>' +
-                    '<p> Pressure: null</p>' +
-                    '<p> Humidity: null</p>'
+                    '<p> Temperature: no data</p>' +
+                    '<p> Humidity: no data</p>' +
+                    '<p> Pressure: no data</p>'
                 );
                 popup.update();
             });
@@ -166,10 +166,10 @@
         filters.forEach(filter => {
             var output = '<span>';
             Array.from(checks).forEach((el) => {
-                if(el.checked) {
-                    if(el.name == 'temperature') output += String(filter.readings.temperature) + ' °C<br>'; 
-                    if(el.name == 'humidity')  output += String(filter.readings.humidity) + ' %<br>'; 
-                    if(el.name == 'pressure')  output += String(filter.readings.pressure) + ' hPa<br>'; 
+                if(el.checked && filter.readings != null) {
+                    if(el.name == 'temperature') output += String(Math.round(filter.readings.temperature * 100) / 100) + ' °C<br>'; 
+                    if(el.name == 'humidity')  output += String(Math.round(filter.readings.humidity * 100) / 100) + ' %<br>'; 
+                    if(el.name == 'pressure')  output += String(Math.round(filter.readings.pressure * 100) / 100) + ' hPa<br>'; 
                 }
                 output += '</span>';
             })

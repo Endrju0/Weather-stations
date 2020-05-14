@@ -6,8 +6,6 @@
 1. Set your config in your `.env` file (APP_URL, database credentials)
 1. `php artisan key:generate`
 1. `npm install`
-1. `npm run dev`
 1. `php artisan migrate`
-1. *If you want to use sample data use `php artisan db:seed`
 1. `php artisan serve`
 1. Visit `localhost:8000` in your browser
