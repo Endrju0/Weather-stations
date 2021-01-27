@@ -86,6 +86,13 @@ The aim of the work is to design and build a web application that processes data
     ]
 }`
 
+   OR
+
+  * **Code:** 401
+    **Content:** `{
+    "error": "Invalid email"
+}`
+
   OR
 
   * **Code:** 401
