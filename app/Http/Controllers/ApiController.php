@@ -38,7 +38,7 @@ class ApiController extends Controller
         // check if email exists in base to prevent wrong api response (and if exists get model)
         if(DB::table('users')->where('email', $request->email)->exists()) {
             $user = User::where('email', $request->email)->firstOrFail();
-        } else return response()->json(['Invalid email'], 400);
+        } else return response()->json(['error' => 'Invalid email'], 401);
 
         // if validation is successful
         $readings = new StationReadings();
@@ -57,6 +57,6 @@ class ApiController extends Controller
                 return new StationReadingsResource($readings);
             }
         }
-        return response()->json(['Invalid token'], 400);
+        return response()->json(['error' => 'Invalid token'], 401);
     }
 }
